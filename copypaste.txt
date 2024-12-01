@@ -1,77 +1,49 @@
-<div class="carousel-item-active">
-    <div class="row d-flex justify-content-center mt-3">
-        {% for y in x %}
-        <div class="col-md-3">
-            <div class="card mb-2 shadow border-0 rounded-4" style="background-color:#fff9db;">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title fw-bold text-center">{{y.name}}</h5>
-    
-                    <hr>
-    
-                    <div class="d-flex justify-content-between mb-1">
-                        <span><i class="bi bi-fire me-1"></i>Calories</span>
-                        <span>
-                            {{y.calorias}}
-                        </span>
+<form id="macroscal" method="post" action="{{url_for('macroscal')}}">
+                    <div class="row mb-3">
+                        <div class="col-4">
+                            <input type="number" class="form-control border border-0" placeholder="Peso(kg)" name="peso"
+                            style="background-color: #7DF9FF;"value="{{ request.form.get('peso', '') }}">
+                        </div>
+                        <div class="col-4">
+                            <input type="number" class="form-control border border-0" placeholder="Altura(cm)" name="altura"
+                            style="background-color: #7DF9FF;" value="{{ request.form.get('altura', '') }}">
+                        </div>
+                        <div class="col-4">
+                            <input type="number" class="form-control border border-0" placeholder="Edad(años)" name="edad"
+                            style="background-color: #7DF9FF;" value="{{ request.form.get('edad', '') }}">
+                        </div>
                     </div>
-    
-                    <div class="d-flex justify-content-between mb-3">
-                        <span><i class="bi bi-egg-fried me-1"></i>Protein</span>
-                        <span>
-                            {{y.proteina}}
-                        </span>
-                    </div>
-    
-                    <div class="mt-auto pt-2 d-flex justify-content-end">
-                        <span class="badge rounded-pill text-bg-success">
-                            ByUSDAfoodData
-                            <i class="bi bi-fork-knife ms-1"></i>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-</div>
 
-<div class="row">
-            <div class="col-1"></div>
-            <div class="col-10 shadow-lg p-3 mb-5 bg-body-tertiary rounded">
-                <div class="container text-center shadow-sm p-3 mb-5 bg-body-tertiary rounded bg-danger-subtle">
-                    <h3>🔓Inicio de Sesion🔓</h3>
-                </div>
-                <div class="row" style="background-color: 255, 250, 250;">
-                    <h6 class="text-secondary">ㅤㅤAñadir nuevo usuario:</h6>
-                    <form id="valida" method="post" action="{{url_for('valida')}}">
-                        <p>ㅤㅤ</p>
-                        <input type="text" class="form-control border" placeholder="Correo electronico" name="email"
-                            value="{{ request.form.get('email', '') }}">
-                        <p>ㅤㅤ</p>
-                        <input type="password" class="form-control border" placeholder="Contraseña" name="password"
-                            value="{{ request.form.get('password', '') }}">
-                    </form>
-                    <p>ㅤㅤ</p>
-                    <div class="d-grid gap-2 mx-auto">
-                        <button type="submit" class="btn btn-danger text-light border" form="valida">Iniciar Sesion</button>
-                        <a href="/" class="btn btn-danger" role="button" aria-disabled="true">Volver a inicio</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-1"></div>
-        </div>
-        <div class="row">
-            <div class="container mt-4">
-                {% with messages = get_flashed_messages(with_categories=True) %}
-                {% if messages %}
-                {% for category, message in messages %}
-                <div class="alert alert-{{ 'danger' if category == 'error' else 'success' }} alert-dismissible fade show"
-                    role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                {% endfor %}
-                {% endif %}
-                {% endwith %}
-            </div>
-        </div>
+                    <input type="number" class="form-control mb-3 border-0" placeholder="% de grasa" name="grasa"
+                        style="background-color: #7DF9FF;" value="{{ request.form.get('grasa', '') }}">
+
+                    <select name="genero" class="form-select form-select-sm mb-3 border-0"
+                        style="background-color: #7DF9FF;" aria-label="Small select example">
+                        <option selected>Selecciona tu genero</option>
+                        <option value="hombre">Hombre</option>
+                        <option value="mujer">Mujer</option>
+                    </select>
+
+                    <select name="actividad" class="form-select form-select-sm mb-3 border-0"
+                        style="background-color: #7DF9FF;" aria-label="Small select example">
+                        <option selected>Selecciona tu nivel de actividad</option>
+                        <option value="sedentario">Sedentario</option>
+                        <option value="activo">Activo</option>
+                        <option value="altoRendimiento">Alto rendimiento</option>
+                    </select>
+
+                    <select name="objetivos" class="form-select form-select-sm mb-3 border-0"
+                        style="background-color: #7DF9FF;" aria-label="Small select example">
+                        <option selected>Selecciona un objetivo</option>
+                        <option value="-peso">Perder peso</option>
+                        <option value="+musculo">Ganar musculo</option>
+                        <option value="=peso">Mantenerse en su peso</option>
+                    </select>
+
+                    <div class="d-grid">
+                                    <button type="submit" class="btn btn-success">
+                                        Calcular
+                                    </button>
+                                </div>
+
+                </form>

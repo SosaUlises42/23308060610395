@@ -2,24 +2,78 @@
 
 {% block contenido %}
 <div class="position-relative text-center">
-    <img src="https://img.freepik.com/premium-photo/healthy-foods-background-with-copy-space-banner-card-generative-ai_159242-26737.jpg?w=2000"
-        class="w-100 h-100">
-    <div class="d-flex justify-content-center align-items-center vh-100 position-absolute top-0 start-0 w-100 h-100 overflow-y-auto overflow-hidden">
+        <img src="https://img.freepik.com/premium-photo/healthy-foods-background-with-copy-space-banner-card-generative-ai_159242-26737.jpg?w=2000"
+            class="w-100 h-100">
+        <div class="position-absolute top-0 start-0 w-100 h-100 overflow-y-auto overflow-hidden">
 
-        <div class="text-center">
-            <!-- Ícono gigante -->
-            <i class="bi bi-exclamation-triangle-fill text-warning" style="font-size: 140px;"></i>
+        <div class="d-flex my-5 flex-column align-items-center gap-4 w-100 px-3">
 
-            <!-- Texto gigante -->
-            <h1 class="fw-bold mt-3" style="font-size: 48px;">
-                Sección en proceso
-            </h1>
+            <div class="card shadow d-flex align-items-center justify-content-center mx-auto"
+                 style="min-height: 500px; width: 1000px;">
 
-            <p class="text-muted mt-2" style="font-size: 20px;">
-                Esta parte aún está en desarrollo. Vuelve pronto.
-            </p>
+                <div class="text-center p-4">
+                    <h1 class="fs-1 fw-bold">
+                        Banco de Recetas Saludables:
+                        <i class="bi bi-cup-hot-fill fs-4 text-success"></i>
+                    </h1>
+
+                    <h1 class="small mt-1">
+                        Descargar plantillas de recetas saludables
+                    </h1>
+
+                    <a href="{{ url_for('proceso', d=1) }}" class="btn mt-3"
+                       style="background-color: #2DDA89;">
+                        <i class="bi bi-download fs-2 text-light"></i>
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="card shadow d-flex align-items-center justify-content-center mx-auto"
+                 style="min-height: 500px; width: 1000px;">
+
+                <div class="text-center p-4">
+                    <h1 class="fs-1 fw-bold">
+                        Recetas "para principiantes":
+                        <i class="bi bi-emoji-smile-fill fs-4 text-success"></i>
+                    </h1>
+
+                    <h1 class="small mt-1">
+                        Descargar plantillas de recetas "para principiantes":
+                    </h1>
+
+                    <a href="{{ url_for('proceso', d=2) }}" class="btn mt-3"
+                       style="background-color: #2DDA89;">
+                        <i class="bi bi-download fs-2 text-light"></i>
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="card shadow d-flex align-items-center justify-content-center mx-auto"
+                 style="min-height: 500px; width: 1000px;">
+
+                <div class="text-center p-4">
+                    <h1 class="fs-1 fw-bold">
+                        Preparación de comidas (Meal Prep):
+                        <i class="bi bi-box-seam fs-4 text-success"></i>
+                    </h1>
+
+                    <h1 class="small mt-1">
+                        Descargar plantillas de recetas economicas
+                    </h1>
+
+                    <a href="{{ url_for('proceso', d=3) }}" class="btn mt-3"
+                       style="background-color: #2DDA89;">
+                        <i class="bi bi-download fs-2 text-light"></i>
+                    </a>
+                </div>
+
+            </div>
+
         </div>
 
     </div>
 </div>
 {% endblock %}
+

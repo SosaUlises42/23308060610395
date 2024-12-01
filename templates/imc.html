@@ -7,11 +7,8 @@
     <div class="position-absolute top-0 start-0 w-100 h-100 overflow-y-auto">
 
         <div class="container position-relative">
-
-            <!-- MÁS ESPACIO ARRIBA -->
             <div class="row justify-content-center mt-5 pt-5">
 
-                <!-- Columna izquierda (Formulario) -->
                 <div class="col-md-6 d-flex mb-5">
                     <div class="card bg-light shadow-lg border-light p-4 w-100 h-100">
                         <div class="card-header bg-dark text-white text-center">
@@ -39,9 +36,8 @@
                     </div>
                 </div>
 
-                <!-- Columna derecha (Resultado) -->
                 <div class="col-md-6 d-flex mb-5">
-                    {% if imc_resultado is not none %}
+                    {% if r != 0 %}
                     <div class="card bg-light shadow-lg border-light p-4 w-100 h-100">
                         <div class="card-header bg-dark text-white text-center">
                             <h3>Resultado</h3>
@@ -49,11 +45,24 @@
 
                         <div class="card-body">
 
-                            <div class="alert {{ color }} text-center">
-                                <h4 class="mb-0">IMC: {{ imc_resultado }}</h4>
+                            <div class="container mt-4">
+                                {% with messages = get_flashed_messages(with_categories=True) %}
+                                {% if messages %}
+                                {% for category, message in messages %}
+                                {% if category == 'bajo' or category == 'saludable' or category == 'alto' or category == 'obesidad' %}
+                                <div class="alert 
+                                {% if category == 'bajo' %}alert-warning 
+                                {% elif category == 'saludable' %}alert-success 
+                                {% elif category == 'alto' %}alert-warning
+                                {% elif category == 'obesidad' %}alert-danger
+                                {% endif %} alert-dismissible fade show" role="alert">
+                                    Tu IMC es de {{r}} {{ message }}
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                                {% endif %}
+                                {% endwith %}
                             </div>
-
-                            <p class="h5 text-center mt-3">{{ mensaje }}</p>
 
                         </div>
                     </div>

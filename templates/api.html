@@ -15,7 +15,7 @@
             <div class="card-body">
                 <div class="row justify-content-center">
                     <div class="col-11">
-                        <form id="apiBuscador" method="post" action="{{url_for('api', name=' ', cal=0, pro=0)}}" class="d-flex my-1">
+                        <form id="apiBuscador" method="post" action="{{url_for('api', name=' ', cal=0, pro=0, car=0)}}" class="d-flex my-1">
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
                                 name="busqueda" value="{{ request.form.get('busqueda', '') }}">
                             <button class="btn btn-success" type="submit"><i class="bi bi-search"></i></button>
@@ -39,7 +39,7 @@
                             {% for y in x %}
                             <div class="col-12 col-sm-6 col-md-3">
 
-                                <a href="/api/{{y.name}}/{{y.calorias|int}}/{{y.proteina|int}}" class="text-decoration-none">
+                                <a href="/api/{{y.name}}/{{y.calorias|int}}/{{y.proteina|int}}/{{y.carbo|int}}" class="text-decoration-none">
                                     <div class="card h-100 mb-3 border-0 rounded-4" style="background-color:#fff9db;">
 
                                         <div class="card-body d-flex flex-column">
@@ -54,10 +54,17 @@
                                                 </span>
                                             </div>
 
-                                            <div class="d-flex justify-content-between mb-3">
+                                            <div class="d-flex justify-content-between mb-1">
                                                 <span><i class="bi bi-egg-fried me-1"></i>Protein</span>
                                                 <span>
                                                     {{y.proteina}}
+                                                </span>
+                                            </div>
+
+                                            <div class="d-flex justify-content-between mb-3">
+                                                <span><i class="bi bi-lightning-charge-fill"></i>Carbohidratos</span>
+                                                <span>
+                                                    {{y.carbo}}
                                                 </span>
                                             </div>
 
@@ -129,6 +136,17 @@
                         100%
                         {% endif %};"></div>
                     </div>
+                    <div class="d-flex justify-content-between mb-3">
+                        {% if pro <= 5 %}
+                        <span class="text-success"><i class="bi bi-exclamation-circle"></i> Este alimento contiene una cantidad baja de proteinas</span>
+                        {% elif pro >= 6 and pro <= 10 %}
+                        <span class="text-success"><i class="bi bi-exclamation-circle"></i> Este alimento contiene una cantidad promedio de proteinas</span>
+                        {% elif pro >= 11 and pro <= 15 %}
+                        <span class="text-warning"><i class="bi bi-exclamation-circle"></i> Este alimento contiene una cantidad alta de proteinas</span>
+                        {% elif pro >= 16 %}
+                        <span class="text-danger"><i class="bi bi-exclamation-circle"></i> Este alimento contiene una cantidad excesiva de proteinas</span>
+                        {% endif %}
+                    </div>
                 </div>
 
                 <div class="mb-3">
@@ -159,8 +177,59 @@
                         100%
                         {% endif %};"></div>
                     </div>
-                </div>
+                    <div class="d-flex justify-content-between mb-3">
+                        {% if cal <= 99 %}
+                        <span class="text-success"><i class="bi bi-exclamation-circle"></i> Este alimento contiene una cantidad baja de calorias</span>
+                        {% elif cal >= 100 and cal <= 199 %}
+                        <span class="text-success"><i class="bi bi-exclamation-circle"></i> Este alimento contiene una cantidad promedio de calorias</span>
+                        {% elif cal >= 200 and cal <= 274 %}
+                        <span class="text-warning"><i class="bi bi-exclamation-circle"></i> Este alimento contiene una cantidad alta de calorias</span>
+                        {% elif cal >= 275 %}
+                        <span class="text-danger"><i class="bi bi-exclamation-circle"></i> Este alimento contiene una cantidad excesiva de calorias</span>
+                        {% endif %}
+                    </div>
+                    <div class="my-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <small class="text-light-emphasis">car</small>
+                            <small class="fw-semibold">
+                                {{car}}
+                            </small>
+                        </div>
+                        <div class="progress bg-black rounded-5" style="height:10px;">
+                            <div class="progress-bar {% if car <= 5 %}
+                            bg-success-subtle
+                            {% elif car >= 6 and car <= 20 %}
+                            bg-success
+                            {% elif car >= 21 and car <= 40 %}
+                            bg-warning
+                            {% elif car >= 41 %}
+                            bg-danger
+                            {% endif %}" 
+                            style="width: {% if car <= 5 %}
+                            25%
+                            {% elif car >= 6 and car <= 20 %}
+                            50%
+                            {% elif car >= 21 and car <= 40 %}
+                            75%
+                            {% elif car >= 40 %}
+                            100%
+                            {% endif %};"></div>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            {% if car <= 5 %}
+                            <span class="text-success"><i class="bi bi-exclamation-circle"></i> Este alimento contiene una cantidad baja de carbohidratos</span>
+                            {% elif car >= 6 and car <= 20 %}
+                            <span class="text-success"><i class="bi bi-exclamation-circle"></i> Este alimento contiene una cantidad promedio de carbohidratos</span>
+                            {% elif car >= 21 and car <= 40 %}
+                            <span class="text-warning"><i class="bi bi-exclamation-circle"></i> Este alimento contiene una cantidad alta de carbohidratos</span>
+                            {% elif car >= 41 %}
+                            <span class="text-danger"><i class="bi bi-exclamation-circle"></i> Este alimento contiene una cantidad excesiva de carbohidratos</span>
+                            {% endif %}
+                        </div>
+                    </div>
 
+                </div>
+                <p class=" mt-3 small text-center text-secondary"><i class="bi bi-exclamation-circle-fill"></i> Cada alimento es analizado por 100g</p>
             </div>
         </div>
         {% endif %}

@@ -1,24 +1,20 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session, send_from_directory
 import requests
-import mysql.connector
+from flask_mysqldb import MySQL
+import os
 
 API_KEY = "h5mDjpnjN1Z5X2qyHRJ8gSbhyaCP4f6P2WfcEjGz"
 
 app = Flask(__name__)
 app.secret_key = "clave-secreta"
 
-DB_CONFIG = {
-    "host": "localhost",
-    "user": "root",       # Cambia si tu usuario es otro
-    "password": "",       # Pon tu contraseña si tienes
-    "database": "nutriapp"
-}
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_DB'] = 'nutriapp'
+app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
-def get_connection():
-    """Crear y devolver una conexión nueva a la base de datos."""
-    return mysql.connector.connect(**DB_CONFIG)
-
-
+mysql = MySQL(app)
 
 @app.route('/')
 def index():
@@ -40,8 +36,8 @@ def buscar():
     
     return render_template('index.html')
 
-@app.route('/macroscal', methods = ['POST','GET'])
-def macroscal():
+@app.route('/macros/<int:cal>/<int:pro>/<int:car>', methods = ['POST','GET'])
+def macros(cal, pro, car):
     if request.method == 'POST':
         peso = float(request.form['peso'])
         altura = float(request.form['altura'])
@@ -79,7 +75,7 @@ def macroscal():
             prot_g = masa_magra * 2.0
         elif objetivos == 'subir':
             prot_g = masa_magra * 2.0
-        else:  # mantener
+        else:
             prot_g = masa_magra * 1.6
 
         prot_kcal = prot_g * 4
@@ -89,21 +85,10 @@ def macroscal():
 
         carb_g = carb_kcal / 4 if carb_kcal > 0 else 0
 
-        resultados = {
-            'cal': int(calorias_objetivo),
-            'pro': int(prot_g),
-            'carbo': int(carb_g),
-        }
+        flash('Tus macronutrientes recomendados son:', 'macros')
+        return redirect(url_for('macros', cal = round(calorias_objetivo, 2), pro = round(prot_g, 2), car = round(carb_g, 2)))
 
-        return render_template('calendario.html', resultados=resultados)
-
-    return render_template('calendario.html')
-
-
-
-@app.route('/macros')
-def macros():
-    return render_template('calendario.html')
+    return render_template('macros.html', cal = cal, pro = pro, car = car)
 
 @app.route('/registrosecion/<int:paso>')
 def registrosecion(paso):
@@ -135,7 +120,10 @@ def control():
         elif actividad == "altoRendimiento":
             resultado = resultado * 1.9
 
-        return render_template('ctrl.html', resultado = resultado)
+        resultado = round(resultado, 2)
+
+        flash(f'Tu gasto calorico total es de {resultado}', 'gtc')
+        return redirect(url_for('crtlComida'))
 
     return redirect(url_for('crtlComida'))
 
@@ -152,12 +140,10 @@ def valida():
         flash("Todos los campos son obligatorios", "error")
         return redirect(url_for("sesion"))
 
-    conn = get_connection()
-    cur = conn.cursor(dictionary=True)
+    cur = mysql.connection.cursor()
     cur.execute("SELECT * FROM usuarios WHERE correo = %s", (email,))
     user = cur.fetchone()
     cur.close()
-    conn.close()
 
     print(user)
 
@@ -203,16 +189,14 @@ def registro(paso):
                     imgPerfil = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
 
             try:
-                conn = get_connection()
-                cur = conn.cursor()
+                cur = mysql.connection.cursor()
                 cur.execute("""
                     INSERT INTO usuarios
                     (nombre, correo, contraseña, peso, altura, edad, imgPerfil, genero, actividad)
                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
                 """, (nombre, correo, contraseña, peso, altura, edad, imgPerfil, genero, actividad))
-                conn.commit()
+                mysql.connection.commit()
                 cur.close()
-                conn.close()
             except Exception as e:
                 print("ERROR:", e)
                 flash("Error al guardar usuario", "error")
@@ -250,61 +234,52 @@ def logout():
     flash("Sesión cerrada correctamente", "success")
     return redirect(url_for("index"))
 
-def evaluar_imc(imc):
-    if imc < 18.5:
-        return "Tienes bajo peso. Es recomendable evaluar tu alimentación.", "alert-warning"
-    elif 18.5 <= imc < 25:
-        return "Tu peso es saludable. ¡Buen trabajo!", "alert-success"
-    elif 25 <= imc < 30:
-        return "Tienes sobrepeso. Considera mejorar hábitos de alimentación.", "alert-warning"
-    else:
-        return "Tienes obesidad. Es recomendable acudir con un profesional de la salud.", "alert-danger"
-
-@app.route("/imc", methods=["GET", "POST"])
-def imc():
-    imc_resultado = None
-    mensaje = None
-    color = None
-
+@app.route("/imc/<float:r>", methods=["GET", "POST"])
+def imc(r):
     if request.method == "POST":
-        try:
-            peso = float(request.form["peso"])
-            altura_cm = float(request.form["altura"])
-            altura = altura_cm / 100  # convertir cm a metros
+        peso = float(request.form["peso"])
+        altura_cm = float(request.form["altura"])
 
-            imc = peso / (altura ** 2)
-            imc = round(imc, 2)
+        altura = altura_cm / 100 
+        imc = peso / (altura ** 2)
+        imc = round(imc, 2)
 
-            mensaje, color = evaluar_imc(imc)
-            imc_resultado = imc
+        if imc < 18.5:
+            flash("Tienes bajo peso. Es recomendable evaluar tu alimentación.", "bajo")
+            return redirect(url_for('imc', r = imc))
+        elif 18.5 <= imc < 25:
+            flash("Tu peso es saludable. ¡Buen trabajo!", "saludable")
+            return redirect(url_for('imc', r = imc))
+        elif 25 <= imc < 30:
+            flash("Tienes sobrepeso. Considera mejorar hábitos de alimentación.", "alto")
+            return redirect(url_for('imc', r = imc))
+        else:
+            flash("Tienes obesidad. Es recomendable acudir con un profesional de la salud.", "obesidad")
+            return redirect(url_for('imc', r = imc))
 
-        except:
-            imc_resultado = None
-
-    return render_template("imc.html", imc_resultado=imc_resultado, mensaje=mensaje, color=color)
-
-def calcular_pci(altura_cm, sexo):
-    altura_in = altura_cm / 2.54  # Convertir cm a pulgadas
-    if sexo == "hombre":
-        peso_ideal = 50 + 2.3 * (altura_in - 60)
-    else:  # mujer
-        peso_ideal = 45.5 + 2.3 * (altura_in - 60)
-    return round(peso_ideal, 2)
+    return render_template("imc.html", r = r)
 
 @app.route("/pci", methods=["GET", "POST"])
 def pci():
     peso_ideal = None
     if request.method == "POST":
-        try:
-            altura_cm = float(request.form["altura"])
-            sexo = request.form["sexo"]
-            peso_ideal = calcular_pci(altura_cm, sexo)
-        except:
-            peso_ideal = None
+        sexo = request.form['sexo']
+        altura = float(request.form['altura'])
+
+        altura_in = altura / 2.54 
+        if sexo == "hombre":
+            peso_ideal = 50 + 2.3 * (altura_in - 60)
+        else:
+            peso_ideal = 45.5 + 2.3 * (altura_in - 60)
+
+        resultado = round(peso_ideal, 2)
+
+        return render_template("idealpeso.html", peso_ideal=resultado)
+    
     return render_template("idealpeso.html", peso_ideal=peso_ideal)
 
-@app.route('/api/<string:name>/<int:cal>/<int:pro>', methods=["GET", "POST"])
-def api(name,cal,pro):
+@app.route('/api/<string:name>/<int:cal>/<int:pro>/<int:car>', methods=["GET", "POST"])
+def api(name,cal,pro,car):
     if request.method == "POST":
         busqueda = request.form['busqueda']
         resp = requests.get(f"https://api.nal.usda.gov/fdc/v1/foods/search?api_key={API_KEY}&query={busqueda}")
@@ -322,7 +297,8 @@ def api(name,cal,pro):
                     food_data = {
                         'name':x['description'],
                         'calorias':next((n['value'] for n in x['foodNutrients'] if n['nutrientName'] == 'Energy'),None),
-                        'proteina':next((n['value'] for n in x['foodNutrients'] if n['nutrientName'] == 'Protein'),None)
+                        'proteina':next((n['value'] for n in x['foodNutrients'] if n['nutrientName'] == 'Protein'),None),
+                        'carbo':next((n['value'] for n in x['foodNutrients'] if n['unitName'] == 'G'),None)
                     }
 
                     listaC.append(food_data)
@@ -334,10 +310,10 @@ def api(name,cal,pro):
                 if listaC:
                     listaS.append(listaC)
 
-                return render_template('api.html', name=name, cal=cal, pro=pro, comidas=listaS)
+                return render_template('api.html', name=name, cal=cal, pro=pro, car=car, comidas=listaS)
                 
 
-    return render_template('api.html', name=name, cal=cal, pro=pro)
+    return render_template('api.html', name=name, cal=cal, pro=pro, car = car)
 
 @app.route('/articulo/<int:art>')
 def articulo(art):
@@ -347,58 +323,51 @@ def articulo(art):
 def perfil():
     return render_template('perfil.html')
 
-@app.route('/ejercicios')
-def ejercicios():
-    return render_template('stayhard.html')
-    
-@app.route('/proceso')
-def proceso():
-    return render_template('nohechx.html')
+@app.route('/ejercicios/<string:down>')
+def ejercicios(down):
+    if down == 'entrar':
+        return render_template('stayhard.html')
+    else:
+        carpeta = os.path.join(app.root_path, "static")
+        nombre_archivo = "ejercicios.pdf"
+        return send_from_directory(carpeta, nombre_archivo, as_attachment=True)
 
-def calcular_tmb(sexo, peso, altura, edad):
-    
-    if sexo == "hombre":
-        return 10 * peso + 6.25 * altura - 5 * edad + 5
-    else:  # mujer
-        return 10 * peso + 6.25 * altura - 5 * edad - 161
-
-
-FACTORES_ACTIVIDAD = {
-    "sedentario": 1.2,
-    "ligero": 1.375,
-    "moderado": 1.55,
-    "intenso": 1.725,
-    "muy_intenso": 1.9,
-}
+@app.route('/proceso/<int:d>')
+def proceso(d):
+    if d == 0:
+        return render_template('nohechx.html')
+    elif d == 1:
+        carpeta = os.path.join(app.root_path, "static")
+        nombre_archivo = "5 Recetario de Cocina Saludable autor Universidad Veracruzana.pdf"
+        return send_from_directory(carpeta, nombre_archivo, as_attachment=True)
+    elif d == 2:
+        carpeta = os.path.join(app.root_path, "static")
+        nombre_archivo = "Principiosde cocina.pdf"
+        return send_from_directory(carpeta, nombre_archivo, as_attachment=True)
+    elif d == 3:
+        carpeta = os.path.join(app.root_path, "static")
+        nombre_archivo = "Recetas Económicas.pdf"
+        return send_from_directory(carpeta, nombre_archivo, as_attachment=True)
 
 @app.route("/tmb", methods=["GET", "POST"])
 def tmb():
     resultado_tmb = None
-    calorias_mantenimiento = None
 
     if request.method == "POST":
-        try:
-            sexo = request.form.get("sexo")
-            peso = float(request.form.get("peso"))
-            altura = float(request.form.get("altura"))
-            edad = int(request.form.get("edad"))
-            actividad = request.form.get("actividad")
+        sexo = request.form.get("sexo")
+        peso = float(request.form.get("peso"))
+        altura = float(request.form.get("altura"))
+        edad = int(request.form.get("edad"))
 
-            tmb_valor = calcular_tmb(sexo, peso, altura, edad)
-            resultado_tmb = round(tmb_valor, 2)
+        if sexo == "hombre":
+            tmb_valor = 10 * peso + 6.25 * altura - 5 * edad + 5
+        else:
+            tmb_valor = 10 * peso + 6.25 * altura - 5 * edad - 161
+        resultado_tmb = round(tmb_valor, 2)
 
-            if actividad in FACTORES_ACTIVIDAD:
-                calorias_mantenimiento = round(
-                    tmb_valor * FACTORES_ACTIVIDAD[actividad], 2
-                )
-        except (TypeError, ValueError):
-            resultado_tmb = "error"
-
-    return render_template(
-        "tmb.html",
-        resultado_tmb=resultado_tmb,
-        calorias_mantenimiento=calorias_mantenimiento,
-    )
+        flash(f'Tu Tasa Metabólica Basal(TMB) es de {resultado_tmb}', 'resultado')
+        return redirect(url_for('tmb'))
+    return render_template('tmb.html')
 
 if __name__ == "__main__":
     app.run(debug=True)

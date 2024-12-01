@@ -42,49 +42,49 @@
 
         <div class="offcanvas offcanvas-start" id="ooffcanvas">
 
-            <div class="p-4 vh-100 shadow-lg">
+            <div class="p-4 vh-100 shadow-lg border-end border-3 border-black">
 
                 <button type="button" class="btn-close position-absolute top-0 end-0 mt-2 me-2" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 <h4 class="offcanvas-title h4" style="color: #2DDA89;">Aplicacion de nutricion</h4>
                 <p><span class="text-body-secondary">Contenido de nutriApp</span></p>
                 
                 <ul class="navbar-nav fs-5 justify-content-evenly">
-                    <li class="nav-item p-3 py-md-1">
-                        <a class="nav-link" href="/registrosecion/1">
+                    <li class="nav-item p-1">
+                        <a class="nav-link fs-5" href="/registrosecion/1">
                             <i class="bi bi-person-fill-add"></i>
                             Crear cuenta
                         </a>
                     </li>
-                    <li class="nav-item p-3 py-md-1">
-                        <a class="nav-link" href="/principal/1#Ei">
+                    <li class="nav-item p-1">
+                        <a class="nav-link fs-5" href="/principal/1#Ei">
                             <i class="bi bi-book-fill"></i>
-                            Modulo: <strong>Educacion e Información</strong>
+                            Modulo: <strong style="color: #2DDA89;">Educacion e Información</strong>
                         </a>
                     </li>
-                    <li class="nav-item p-3 py-md-1">
-                        <a class="nav-link" href="/principal/1#Pr">
+                    <li class="nav-item p-1">
+                        <a class="nav-link fs-5" href="/principal/1#Pr">
                             <i class="bi bi-basket"></i>
-                            Modulo: <strong>Planificación y Recetas</strong>
+                            Modulo: <strong style="color: #2DDA89;">Planificación y Recetas</strong>
                         </a>
                     </li>
-                    <li class="nav-item p-3 py-md-1">
-                        <a class="nav-link" href="/principal/1#calculadoras">
+                    <li class="nav-item p-1">
+                        <a class="nav-link fs-5" href="/principal/1#calculadoras">
                             <i class="bi bi-wrench"></i>
-                            Modulo: <strong>Herramientas</strong>
+                            Modulo: <strong style="color: #2DDA89;">Herramientas</strong>
                         </a>
                     </li>
 
 
                     {% if not session.valida or session.valida == False %}
-                    <li class="nav-item p-3 py-md-1">
-                        <a class="nav-link" href="/inciosecion">
+                    <li class="nav-item p-1">
+                        <a class="nav-link fs-5" href="/inciosecion">
                             <i class="bi bi-box-arrow-in-right"></i>
                             Iniciar Sesion
                         </a>
                     </li>
                     {% else %}
-                    <li class="nav-item p-3 py-md-1">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                    <li class="nav-item p-1">
+                        <a class="nav-link fs-5 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             Bienvenido {{session.nombre}}
                         </a>

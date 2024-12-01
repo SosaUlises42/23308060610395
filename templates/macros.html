@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+<div class="position-relative text-center">
+    <img src="https://img.freepik.com/premium-photo/healthy-foods-background-with-copy-space-banner-card-generative-ai_159242-26737.jpg?w=2000"
+        class="w-100">
+    <div class="position-absolute top-0 start-0 w-100 h-100 overflow-y-auto">
+
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8 col-lg-6">
+                    <div class="card shadow border-0">
+                        <div class="card-body p-4">
+                            <h3 class="text-center mb-3">Calculadora de Macronutrientes</h3>
+
+                            <form id="macroscal" method="post"
+                                action="{{url_for('macros', cal = 0, pro = 0, car = 0)}}">
+                                <div class="row mb-3">
+                                    <div class="col-4">
+                                        <input type="number" class="form-control border border-0" placeholder="Peso(kg)"
+                                            name="peso" value="{{ request.form.get('peso', '') }}">
+                                    </div>
+                                    <div class="col-4">
+                                        <input type="number" class="form-control border border-0"
+                                            placeholder="Altura(cm)" name="altura"
+                                            value="{{ request.form.get('altura', '') }}">
+                                    </div>
+                                    <div class="col-4">
+                                        <input type="number" class="form-control border border-0"
+                                            placeholder="Edad(años)" name="edad"
+                                            value="{{ request.form.get('edad', '') }}">
+                                    </div>
+                                </div>
+
+                                <input type="number" class="form-control mb-3 border-0" placeholder="% de grasa"
+                                    name="grasa" value="{{ request.form.get('grasa', '') }}">
+
+                                <select name="genero" class="form-select mb-3 border-0"
+                                    aria-label="Small select example">
+                                    <option selected>Selecciona tu genero</option>
+                                    <option value="hombre">Hombre</option>
+                                    <option value="mujer">Mujer</option>
+                                </select>
+
+                                <select name="actividad" class="form-select mb-3 border-0"
+                                    aria-label="Small select example">
+                                    <option selected>Selecciona tu nivel de actividad</option>
+                                    <option value="sedentario">Sedentario</option>
+                                    <option value="activo">Activo</option>
+                                    <option value="altoRendimiento">Alto rendimiento</option>
+                                </select>
+
+                                <select name="objetivos" class="form-select mb-3 border-0"
+                                    aria-label="Small select example">
+                                    <option selected>Selecciona un objetivo</option>
+                                    <option value="-peso">Perder peso</option>
+                                    <option value="+musculo">Ganar musculo</option>
+                                    <option value="=peso">Mantenerse en su peso</option>
+                                </select>
+
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-success">
+                                        Calcular
+                                    </button>
+                                </div>
+
+                            </form>
+
+                            <div class="container mt-4">
+                                {% with messages = get_flashed_messages(with_categories=True) %}
+                                {% if messages %}
+                                {% for category, message in messages %}
+                                {% if category == 'macros' %}
+                                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                                {% endif %}
+                                {% endwith %}
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        {% if cal and pro and car %}
+        <div class="row justify-content-center">
+
+            <div class="col-md-3">
+                <div class="card bg-light shadow-lg border-light p-4 w-100 h-100">
+                    <div class="card-header bg-dark text-white text-center">
+                        <h3>Calorias:</h3>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="alert alert-info text-center">
+                            <h4 class="mb-0">{{ cal }}g</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-light shadow-lg border-light p-4 w-100 h-100">
+                    <div class="card-header bg-dark text-white text-center">
+                        <h3>Proteínas:</h3>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="alert alert-info text-center">
+                            <h4 class="mb-0">{{ pro }}g</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-light shadow-lg border-light p-4 w-100 h-100">
+                    <div class="card-header bg-dark text-white text-center">
+                        <h3>Carbohidratos:</h3>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="alert alert-info text-center">
+                            <h4 class="mb-0">{{ car }}g</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}
