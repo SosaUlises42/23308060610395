@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+    
+{% block contenido %}
+    <div class="card">
+        <div class="card-header bg-danger-subtle text-light">
+            <h5>Lista de Alimentos Clasificados</h5>
+        </div>
+        <div class="card-body">
+            <div class="row mx-auto">
+                <div class="col-1">
+                    <h6>Alimento</h6>
+                    <h6>{{c1}}</h6>
+                </div>
+                <div class="col-1">
+                    <h6>Calorias totales</h6>
+                    <h6>{{c2}}</h6>
+                </div>
+                <div class="col-1">
+                    <h6>Clasificacion principal</h6>
+                    <h6>{{c3}}</h6>
+                </div>
+                <div class="col-1">
+                    <h6>%Predominante</h6>
+                    <h6>{{c4}}</h6>
+                </div>
+                <div class="col-1">
+                    <h6>Grasas(g)</h6>
+                </div>
+                <div class="col-1">
+                    <h6>Protehinas(g)</h6>
+                </div>
+                <div class="col-1">
+                    <h6>Carbs(g)</h6>
+                </div>
+            </div>
+        </div>
+        <p>ㅤㅤ</p>
+        <p>ㅤㅤ</p>
+        <div class="card-footer text-light">
+            <p>ㅤㅤ</p>
+            <a href="/" class="btn btn-danger position-absolute bottom-0 end-0" role="button" aria-disabled="true">Volver a clasificacion</a>
+            <p>ㅤㅤ</p>
+        </div>
+    </div> 
+{% endblock %}
