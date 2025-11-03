@@ -3,35 +3,32 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 app = Flask(__name__)
 app.secret_key = "clave-secreta"
 
-session = {
-    "alimento":"",
-    "grasas":"",
-    "proteinas":"",
-    "carbohidratos":""
-}
-
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('iniciosecion.html')
 
-@app.route('/tabla')
-def tabla():
-    return render_template('tabla.html')
+@app.route('/inciosecion')
+def sesion():
+    return render_template('base.html')
 
 @app.route('/registro', methods = ['POST','GET'])
 def registro():
+    error = None
     if request.method == 'POST':
-        alimento = request.form['alimento']
-        grasas = request.form['grasas']
-        proteinas = request.form['proteinas']
-        carbohidratos = request.form['carbohidratos']
+        nombre = request.form['nombre']
+        correo = request.form['correo']
+        contraseña = request.form['contraseña']
+        peso = request.form['peso']
+        altura = request.form['altura']
+        edad = request.form['edad']
         
-        if alimento != "" and grasas != "" and proteinas != "" and carbohidratos != "":
-            session["alimento"] = alimento
-            session["grasas"] = grasas
-            session["proteinas"] = proteinas
-            session["carbohidratos"] = carbohidratos
-        
+        if not nombre or not correo or not contraseña or not peso or not altura or not edad:
+            flash("Todos los campos son obligatorios", "error")
+            redirect(url_for("index"))
+        else:
+            flash(f"Nuevo usuario existente: nombre: {nombre} correo: {correo} contraseña: {contraseña} peso: {peso} altura: {altura} edad: {edad}")
+            redirect(url_for("index"))
+            
     return redirect(url_for('index'))
 
 if __name__ == "__main__":
