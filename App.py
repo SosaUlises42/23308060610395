@@ -5,11 +5,11 @@ app.secret_key = "clave-secreta"
 
 @app.route('/')
 def index():
-    return render_template('iniciosecion.html')
+    return render_template('yepez.html')
 
 @app.route('/inciosecion')
 def sesion():
-    return render_template('base.html')
+    return render_template('iniciosecion.html')
 
 @app.route('/registro', methods = ['POST','GET'])
 def registro():
