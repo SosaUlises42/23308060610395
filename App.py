@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 
+USUARIOS_REGISTRADOS =[]
+
 app = Flask(__name__)
 app.secret_key = "clave-secreta"
 
@@ -31,11 +33,32 @@ def buscar():
 def calendary():
     return render_template('calendario.html')
 
-@app.route('/inciosecion')
-def sesion():
+@app.route('/registrosecion')
+def registrosecion():
     return render_template('iniciosecion.html')
 
-@app.route('/registro', methods = ['POST','GET'])
+@app.route('/inciosecion')
+def sesion():
+    return render_template('sesinguardada.html')
+
+@app.route('/valida', methods=['GET', 'POST'])
+def valida():
+    if request.method == 'POST':
+        email = request.form.get('email', '').strip()
+        password = request.form.get('password', '')
+    
+    if not email or not password:
+        flash("Todos los campos son obligatorios", "error")
+        return redirect(url_for("sesion"))
+    else:
+        for x in USUARIOS_REGISTRADOS:
+            if email == x["correo"] and password == x["contraseña"]:
+                flash("Sesion iniciada correctamente")
+                return redirect(url_for("principal"))
+            
+    return render_template('sesinguardada.html')
+
+@app.route('/registro', methods = ['GET','POST'])
 def registro():
     if request.method == 'POST':
         nombre = request.form['nombre']
@@ -47,10 +70,11 @@ def registro():
         
         if not nombre or not correo or not contraseña or not peso or not altura or not edad:
             flash("Todos los campos son obligatorios", "error")
-            return redirect(url_for("sesion"))
+            return redirect(url_for("registrosecion"))
         else:
             flash(f"Nuevo usuario existente: nombre: {nombre} correo: {correo} contraseña: {contraseña} peso: {peso} altura: {altura} edad: {edad}")
-            return redirect(url_for("sesion"))
+            USUARIOS_REGISTRADOS.append({"correo":correo, "contraseña": contraseña})
+            return redirect(url_for("registrosecion"))
             
     return redirect(url_for('index'))
 
