@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+<div class="card text-bg-dark">
+    <img src="https://www.somosmamas.com.ar/wp-content/uploads/2019/04/comidas-saludables.jpg" class="card-img">
+    <div class="card-img-overlay">
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col-10 bg-light shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+                <div class="container text-center shadow-sm p-3 mb-5 bg-body-tertiary rounded bg-danger-subtle">
+                    <h3 class="text-center text-light">📆Agenda Noviembre✏️</h3>  
+                </div>
+                <table class="table table-bordered border-danger text-center align-middle">
+                    <thead class="table-danger">
+                        <tr>
+                            <th>Lun</th>
+                            <th>Mar</th>
+                            <th>Mié</th>
+                            <th>Jue</th>
+                            <th>Vie</th>
+                            <th>Sáb</th>
+                            <th>Dom</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>6</td>
+                            <td>7</td>
+                            <td>8</td>
+                            <td>9</td>
+                            <td>10</td>
+                            <td>11</td>
+                        </tr>
+                        <tr>
+                            <td>12</td>
+                            <td>13</td>
+                            <td>14<br></td>
+                            <td>15</td>
+                            <td>16</td>
+                            <td>17</td>
+                            <td>18</td>
+                        </tr>
+                        <tr>
+                            <td>19</td>
+                            <td>20</td>
+                            <td>21</td>
+                            <td>22</td>
+                            <td>23</td>
+                            <td>24</td>
+                            <td>25</td>
+                        </tr>
+                        <tr>
+                            <td>26</td>
+                            <td>27</td>
+                            <td>28</td>
+                            <td>29</td>
+                            <td>30</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>ㅤㅤ</p>
+                <h6 class="text-secondary">ㅤㅤAgendar;</h6>
+                <p>ㅤㅤ</p>
+                <form id="agenda">
+                    <input type="number" class="form-control border" placeholder="Fecha" name="nombre">\
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Evento" id="floatingTextarea2" style="height: 100px"></textarea>
+                        <label for="floatingTextarea2">Evento</label>
+                    </div>
+                </form>
+                <p>ㅤㅤ</p>
+                <div class="d-grid gap-2 mx-auto">
+                    <button type="submit" class="btn btn-danger text-light border" form="agenda">Agendar evento</button>
+                    <a href="/" class="btn btn-danger" role="button" aria-disabled="true">Volver a inicio</a>
+                </div>
+
+            </div>
+            <div class="col-1"></div>
+        </div>
+    </div>
+    {% endblock %}
