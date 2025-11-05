@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+<div class="card bg-dark shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+    <img src="https://www.somosmamas.com.ar/wp-content/uploads/2019/04/comidas-saludables.jpg" class="card-img">
+    <div class="card-img-overlay">
+        <p>ㅤㅤ</p>
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col-10 bg-light shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+                <div class="container text-center shadow-sm p-3 mb-5 bg-body-tertiary rounded bg-danger-subtle">
+                    <h3 class="text-center text-light">⚖️Control alimenticio⚖️</h3>  
+                </div>
+
+                <form id="control" method="post" action="{{url_for('control')}}">
+                    <input type="text" class="form-control border" placeholder="Nombre del alimento" name="alimento"
+                            value="{{ request.form.get('alimento', '') }}">
+                            <p>ㅤㅤ</p>
+                            <div class="row">
+                                <div class="col-3">
+                                    <input type="number" class="form-control border" placeholder="calorias(g)" name="calorias"
+                                    value="{{ request.form.get('calorias', '') }}">
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control border" placeholder="proteinas(g)" name="proteinas"
+                                    value="{{ request.form.get('proteinas', '') }}">
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control border" placeholder="cahrbohidratos(g)" name="cahrbohidratos"
+                                    value="{{ request.form.get('cahrbohidratos', '') }}">
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control border" placeholder="grasas(g)" name="grasas"
+                                    value="{{ request.form.get('grasas', '') }}">
+                                </div>
+                            </div>
+                </form>
+                <p>ㅤㅤ</p>
+                <div class="d-grid gap-2 mx-auto">
+                    <button type="submit" class="btn btn-danger text-light border" form="control">Agregar alimento</button>
+                    <a href="/" class="btn btn-danger" role="button" aria-disabled="true">Volver a inicio</a>
+                </div>
+            </div>
+            <div class="col-1"></div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Nombre del alimento</th>
+            <th scope="col">calorias</th>
+            <th scope="col">proteinas</th>
+            <th scope="col">cahrbohidratos</th>
+            <th scope="col">grasas</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for x in tabla %}
+            <tr>
+              <th scope="row">{{ loop.index }}</th>
+              <td>{{ x.nombre }}</td>
+              <td>{{ x.calorias }}</td>
+              <td>{{ x.proteinas }}</td>
+              <td>{{ x.carbohidratos }}</td>
+              <td>{{ x.grasas }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+</div>
+{% endblock %}

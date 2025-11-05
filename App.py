@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 
 USUARIOS_REGISTRADOS =[]
+comidas =[]
 
 app = Flask(__name__)
 app.secret_key = "clave-secreta"
@@ -37,12 +38,37 @@ def calendary():
 def registrosecion():
     return render_template('iniciosecion.html')
 
+@app.route('/crtlComida')
+def crtlComida():
+    return render_template('ctrl.html', table = comidas)
+
+@app.route('/control', methods=['GET', 'POST'])
+def control():
+    if request.method == 'POST':
+        alimento = request.form.get('alimento', '')
+        calorias = request.form.get('calorias', '')
+        proteinas = request.form.get('proteinas', '')
+        cahrbohidratos = request.form.get('cahrbohidratos', '')
+        grasas = request.form.get('grasas', '')
+
+        if alimento and calorias and proteinas and cahrbohidratos and grasas:
+            comidas.append({
+                'nombre':alimento,
+                'calorias':calorias,
+                'proteinas':proteinas,
+                'cahrbohidratos':cahrbohidratos,
+                'grasas':grasas
+            })
+
+    return redirect(url_for('crtlComida'))
+
 @app.route('/inciosecion')
 def sesion():
     return render_template('sesinguardada.html')
 
 @app.route('/valida', methods=['GET', 'POST'])
 def valida():
+    valid = False
     if request.method == 'POST':
         email = request.form.get('email', '').strip()
         password = request.form.get('password', '')
@@ -53,8 +79,13 @@ def valida():
     else:
         for x in USUARIOS_REGISTRADOS:
             if email == x["correo"] and password == x["contraseña"]:
+                valid = True
                 flash("Sesion iniciada correctamente")
                 return redirect(url_for("principal"))
+            
+    if valid == False:
+        flash("Los datos de usuario no coinciden", "error")
+        return redirect(url_for("sesion"))
             
     return render_template('sesinguardada.html')
 
