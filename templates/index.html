@@ -9,9 +9,12 @@
         <div class="row">
             <p>ㅤㅤ</p>
             <div class="col-1"></div>
-            <div class="col-10 d-flex flex-column justify-content-center align-items-center h-100 text-center position-absolute top-50 start-50 translate-middle">
-                <div id="carouselExampleAutoplaying"
-                    class="carousel slide">
+            <div
+                class="col-10 d-flex flex-column justify-content-center align-items-center h-100 text-center position-absolute top-50 start-50 translate-middle">
+
+
+
+                <div id="carouselExampleAutoplaying" class="carousel slide">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
                             <div class="card mb-3 shadow-lg p-3 mb-5 bg-body-tertiary rounded"
@@ -24,9 +27,11 @@
                                     <div class="col-md-8">
                                         <div class="card-body">
                                             <h5 class="card-title">Control alimenticio</h5>
-                                            <p class="card-text">Ingresa diferentes tipos de alimento y compara la cantidad de calorias y macronutrientes 
+                                            <p class="card-text">Ingresa diferentes tipos de alimento y compara la
+                                                cantidad de calorias y macronutrientes
                                                 (proteínas, carbohidratos, grasas).</p>
-                                                <a class="btn btn-success text-light" href="/crtlComida" role="button">Ir a</a>
+                                            <a class="btn btn-success text-light" href="/crtlComida" role="button">Ir
+                                                a</a>
                                         </div>
                                     </div>
                                 </div>
@@ -43,8 +48,10 @@
                                     <div class="col-md-8">
                                         <div class="card-body">
                                             <h5 class="card-title">Plan alimenticio</h5>
-                                            <p class="card-text">Elabora un plan semanal\mensual que incluya diferentes recetas de alimentacion saludable.</p>
-                                            <a class="btn btn-success text-light" href="\calendary" role="button">Ir a</a>
+                                            <p class="card-text">Elabora un plan semanal\mensual que incluya diferentes
+                                                recetas de alimentacion saludable.</p>
+                                            <a class="btn btn-success text-light" href="\calendary" role="button">Ir
+                                                a</a>
                                         </div>
                                     </div>
                                 </div>
@@ -62,7 +69,8 @@
                                         <div class="card-body">
                                             <h5 class="card-title">Iniciar sesion</h5>
                                             <p class="card-text">Ya tienes una cuenta? inicia sesion.</p>
-                                            <a class="btn btn-success text-light" href="/inciosecion" role="button">Ir a</a>
+                                            <a class="btn btn-success text-light" href="/inciosecion" role="button">Ir
+                                                a</a>
                                         </div>
                                     </div>
                                 </div>
@@ -81,13 +89,6 @@
                     </button>
                 </div>
 
-                <div class="mb-4">
-                    <form id="buscar" method="post" action="{{url_for('buscar')}}" class="d-flex">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="busqueda" 
-                        value="{{ request.form.get('busqueda', '') }}" style="width: 250px;">
-                        <button class="btn btn-success" type="submit">Search</button>
-                    </form>
-                </div>
             </div>
             <div class="col-1"></div>
         </div>

@@ -15,11 +15,28 @@
         <div class="collapse" id="navbarToggleExternalContent">
             <div class="p-4" style="background-color: #FFF1E7;">
                 <h5 class="text-body-emphasis h4">Aplicacion de nutricion</h5>
-                <span class="text-body-secondary">Contenido de nutriApp</span>
-                <li><a class="text-secondary" href="/registrosecion">Registrar otra cuenta</a></li>
-                <li><a class="text-secondary" href="#">Plan alimenticio</a></li>
-                <li><a class="text-secondary" href="#">Another action</a></li>
-                <li><a class="text-secondary" href="#">Something else here</a></li>
+                <p><span class="text-body-secondary">Contenido de nutriApp</span></p>
+                <li>
+                    <a class="navbar-brand" href="/registrosecion"> 
+                        <img src="https://icon-library.com/images/login-icon/login-icon-3.jpg" alt="Logo" width="20" height="20"
+                                class="d-inline-block align-text-top"> 
+                                Registrar otra cuenta
+                    </a>
+                </li>
+                <li>
+                    <a class="navbar-brand" href="/calendary"> 
+                        <img src="https://www.pngmart.com/files/21/Agenda-PNG-Pic.png" alt="Logo" width="20" height="20"
+                                class="d-inline-block align-text-top"> 
+                                Plan alimenticio
+                    </a>
+                </li>
+                <li>
+                    <a class="navbar-brand" href="/calendary"> 
+                        <img src="https://th.bing.com/th/id/R.5f58199705702af0d04a52096774e8cd?rik=Te%2fBTLdC%2fJxSsg&pid=ImgRaw&r=0" alt="Logo" width="20" height="20"
+                                class="d-inline-block align-text-top"> 
+                                Control alimenticio
+                    </a>
+                </li>
             </div>
         </div>
         <nav class="navbar" style="background-color: #FBCEB1;">
@@ -33,12 +50,19 @@
                         <span class="navbar-toggler-icon"></span> 
                     </button>
                 </div>
-                <div class="container-fluid col-8"> 
+                <div class="container-fluid col-4"> 
                     <a class="navbar-brand" href="/"> 
                         <img src="https://i.pinimg.com/originals/01/a6/42/01a6420f5e529edde707a2a28892e9dd.png" alt="Logo" width="40" height="40"
                                 class="d-inline-block align-text-top"> 
                                 App Nutricional
                     </a> 
+                </div>
+                <div class="position-absolute top-50 end-0 translate-middle-y col-4">
+                    <form id="buscar" method="post" action="{{url_for('buscar')}}" class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="busqueda" 
+                        value="{{ request.form.get('busqueda', '') }}" style="width: 250px;">
+                        <button class="btn btn-success" type="submit">Search</button>
+                    </form>
                 </div>
             </div>
         </nav>
