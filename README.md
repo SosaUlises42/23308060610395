@@ -1,86 +1,196 @@
-<div class="d-flex flex-column justify-content-center align-items-center h-100 text-center position-absolute top-50 start-50 translate-middle">
-                    <div class="d-flex flex-column justify-content-center align-items-center h-100 text-center">
-                        <div id="carouselExampleAutoplaying" class="carousel slide">
-                            <div class="carousel-inner">
-                                <div class="carousel-item active">
-                                    <div class="card mb-3 shadow-lg p-3 mb-5 bg-body-tertiary rounded"
-                                        style="max-width: 540px;">
-                                        <div class="row g-0">
-                                            <div class="col-md-4">
-                                                <img src="https://st2.depositphotos.com/5891300/9005/v/950/depositphotos_90056558-stock-illustration-balance-scales-with-food-comic.jpg"
-                                                    class="img-fluid rounded-start" alt="...">
-                                            </div>
-                                            <div class="col-md-8">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Control alimenticio</h5>
-                                                    <p class="card-text">Ingresa diferentes tipos de alimento y
-                                                        compara la
-                                                        cantidad de calorias y macronutrientes
-                                                        (proteínas, carbohidratos, grasas).</p>
-                                                    <a class="btn btn-success text-light" href="/crtlComida"
-                                                        role="button">Ir
-                                                        a</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="carousel-item">
-                                    <div class="card mb-3 shadow-lg p-3 mb-5 bg-body-tertiary rounded"
-                                        style="max-width: 540px;">
-                                        <div class="row g-0">
-                                            <div class="col-md-4">
-                                                <img src="https://img.freepik.com/vector-premium/dibujado-mano-doodle-calendario-plegable-vector-estilo-arte-dibujos-animados-aislado_607987-881.jpg?w=2000"
-                                                    class="img-fluid rounded-start" alt="...">
-                                            </div>
-                                            <div class="col-md-8">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Plan alimenticio</h5>
-                                                    <p class="card-text">Elabora un plan semanal\mensual que incluya
-                                                        diferentes
-                                                        recetas de alimentacion saludable.</p>
-                                                    <a class="btn btn-success text-light" href="\calendary"
-                                                        role="button">Ir
-                                                        a</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="carousel-item">
-                                    <div class="card mb-3 shadow-lg p-3 mb-5 bg-body-tertiary rounded"
-                                        style="max-width: 540px;">
-                                        <div class="row g-0">
-                                            <div class="col-md-4">
-                                                <img src="https://static.vecteezy.com/system/resources/previews/000/627/598/large_2x/padlock-icon-symbol-sign-vector.jpg"
-                                                    class="img-fluid rounded-start" alt="...">
-                                            </div>
-                                            <div class="col-md-8">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Iniciar sesion</h5>
-                                                    <p class="card-text">Ya tienes una cuenta? inicia sesion.</p>
-                                                    <a class="btn btn-success text-light" href="/inciosecion"
-                                                        role="button">Ir
-                                                        a</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <button class="carousel-control-prev" type="button"
-                                data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button"
-                                data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+# A la Burger - App Web de Nutrición 🍔
 
-                style="width: 18rem;"
-</div>
+Este proyecto escolar está basado en una investigación comparativa sobre aplicaciones web de nutrición para desarrollar en el futuro una app dirigida a estudiantes.
+
+---
+
+## 📌 Objetivo del proyecto
+Evaluar distintas aplicaciones de nutrición ya existentes para identificar:
+
+- Funciones más útiles ✅  
+- Elementos innovadores 🔍  
+- Áreas de oportunidad para mejorar 💡  
+
+Este análisis servirá como base para nuestra futura aplicación **A la Burger** 🍔.
+
+---
+
+## 👥 Equipo
+- **Aaron Yepez Méndez**
+- **Jorge Ulises Sosa Ferman**
+- **Grupo:** 5D
+
+---
+
+## 📚 Contenido de la investigación
+
+### Aplicaciones analizadas
+1. **MyFitnessPal**
+2. **Cronometer**
+3. **YAZIO**
+4. **FatSecret**
+5. **Lifesum**
+
+A continuación, se resumen los aspectos evaluados de cada app:
+
+---
+
+## 🥗 Comparación de Aplicaciones Web de Nutrición
+
+---
+
+### ✅ MyFitnessPal
+
+**🟢 Funcionalidades principales**
+- Registro de alimentos por búsqueda, escaneo o creación de recetas
+- Base de datos con *14+ millones* de alimentos
+- Ajuste de calorías y macronutrientes según objetivo
+
+**🔵 Experiencia de usuario**
+- Interfaz moderna e intuitiva
+- Versión gratuita con demasiada información en pantalla
+
+**🟠 Modelo de negocio**
+- Freemium con anuncios
+- Premium: $19.99/mes o $79.99/año
+
+**🔴 Puntos fuertes y débiles**
+- + Base de datos enorme
+- + Integración con Fitbit y Garmin
+- - Anuncios molestos en versión gratuita
+
+**🟣 Innovación**
+- Algoritmos personalizados
+- Seguimiento detallado de micronutrientes
+
+---
+
+### ✅ Cronometer
+
+**🟢 Funcionalidades principales**
+- Registro de alimentos con escaneo
+- Planificación básica de comidas
+- Base de datos amplia
+
+**🔵 Experiencia de usuario**
+- Interfaz simple y funcional
+
+**🟠 Modelo de negocio**
+- Gratis con anuncios
+- Funciones avanzadas con suscripción
+
+**🔴 Fortaleza y debilidad**
+- + Fácil y gratis
+- - Menos funciones que la competencia
+
+**🟣 Innovaciones**
+- Comunidad para compartir recetas y logros
+
+---
+
+### ✅ YAZIO
+
+**🟢 Funcionalidades principales**
+- Planes de dieta personalizados
+- Registro con escaneo de código de barras
+
+**🔵 Experiencia de usuario**
+- Diseño atractivo y motivador
+
+**🟠 Modelo de negocio**
+- Freemium
+- Pro desde $29.99/año
+
+**🔴 Puntos fuertes y débiles**
+- + Planes de dieta llamativos
+- - Muchas funciones bloqueadas
+
+**🟣 Innovación**
+- Seguimiento efectivo de macro y micronutrientes
+
+---
+
+### ✅ FatSecret
+
+**🟢 Funcionalidades principales**
+- Registro básico y escaneo
+- Base con más de 1 millón de alimentos
+
+**🔵 Experiencia de usuario**
+- Interfaz muy sencilla y directa
+
+**🟠 Modelo de negocio**
+- Gratuita con anuncios
+- Suscripción para más funciones
+
+**🔴 Puntos fuertes y débiles**
+- + App ligera y fácil
+- - Menos funciones avanzadas
+
+**🟣 Innovación**
+- Diario de ejercicios + comunidad activa
+
+---
+
+### ✅ Lifesum
+
+**🟢 Funcionalidades principales**
+- Planes de dieta guiados y recetas saludables
+- Registro de alimentos y guías nutricionales
+
+**🔵 Experiencia de usuario**
+- Interfaz visualmente atractiva
+
+**🟠 Modelo de negocio**
+- Freemium
+- Premium: desde $39.99/año
+
+**🔴 Fortalezas y debilidades**
+- + Diseño moderno y motivador
+- - Muchas funciones Premium
+
+**🟣 Innovación**
+- Planes adaptativos según progreso
+
+---
+
+## 🧠 Conclusión general
+| App | Base de datos | Experiencia | Funciones gratis | Personalización |
+|-----|--------------|-------------|-----------------|----------------|
+| MyFitnessPal | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐☆ | ⭐⭐⭐☆ | ⭐⭐⭐⭐⭐ |
+| Cronometer | ⭐⭐⭐⭐☆ | ⭐⭐⭐⭐☆ | ⭐⭐⭐⭐☆ | ⭐⭐⭐ |
+| YAZIO | ⭐⭐⭐⭐☆ | ⭐⭐⭐⭐⭐ | ⭐⭐☆☆☆ | ⭐⭐⭐⭐☆ |
+| FatSecret | ⭐⭐⭐☆ | ⭐⭐⭐⭐☆ | ⭐⭐⭐⭐☆ | ⭐⭐☆☆☆ |
+| Lifesum | ⭐⭐⭐⭐☆ | ⭐⭐⭐⭐⭐ | ⭐⭐☆☆☆ | ⭐⭐⭐⭐⭐ |
+
+✅ _Todas tienen funciones útiles_  
+⚠️ _Algunas limitan bastante la versión gratuita_
+
+La app **A la Burger** buscará combinar:
+✔ Facilidad de uso de FatSecret  
+✔ Personalización de MyFitnessPal y Lifesum  
+✔ Motivación visual de YAZIO  
+
+Y enfocarse en **estudiantes**, con recomendaciones accesibles.
+
+---
+
+## 🛠 Tecnologías planeadas para el desarrollo futuro
+- **HTML + CSS + JavaScript**
+- **Flask (Python)**
+- Base de datos: por definir (SQLite / MySQL / Firebase)
+
+---
+
+## 📌 Documento respaldado con:
+- Sitios oficiales de las apps
+- Artículos especializados en nutrición y tecnología
+- Opiniones reales de usuarios
+- Apoyo de ChatGPT en redacción y análisis 🤖
+
+---
+
+✍ Proyecto supervisado por: **Prof. Treviño**
+
+🎯 Proyecto final — Especialidad TIC
+
