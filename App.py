@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 
-USUARIOS_REGISTRADOS =[]
 comidas =[]
 
 app = Flask(__name__)
@@ -68,7 +67,6 @@ def sesion():
 
 @app.route('/valida', methods=['GET', 'POST'])
 def valida():
-    valid = False
     if request.method == 'POST':
         email = request.form.get('email', '').strip()
         password = request.form.get('password', '')
@@ -77,17 +75,13 @@ def valida():
         flash("Todos los campos son obligatorios", "error")
         return redirect(url_for("sesion"))
     else:
-        for x in USUARIOS_REGISTRADOS:
-            if email == x["correo"] and password == x["contraseña"]:
-                valid = True
-                flash("Sesion iniciada correctamente")
-                return redirect(url_for("principal"))
-            
-    if valid == False:
-        flash("Los datos de usuario no coinciden", "error")
-        return redirect(url_for("sesion"))
-            
-    return render_template('sesinguardada.html')
+        if email == session["correo"] and password == session["contraseña"]:
+            valid = True
+            flash("Sesion iniciada correctamente")
+            return redirect(url_for("principal"))
+        else:
+            flash("Los datos de usuario no coinciden", "error")
+            return redirect(url_for("sesion"))
 
 @app.route('/registro', methods = ['GET','POST'])
 def registro():
@@ -104,10 +98,16 @@ def registro():
             return redirect(url_for("registrosecion"))
         else:
             flash(f"Nuevo usuario existente: nombre: {nombre} correo: {correo} contraseña: {contraseña} peso: {peso} altura: {altura} edad: {edad}")
-            USUARIOS_REGISTRADOS.append({"correo":correo, "contraseña": contraseña})
+            session["correo"] = correo 
+            session["contraseña"]= contraseña
             return redirect(url_for("registrosecion"))
             
     return redirect(url_for('index'))
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("index"))
 
 if __name__ == "__main__":
     app.run(debug=True)

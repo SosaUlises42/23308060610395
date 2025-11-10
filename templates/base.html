@@ -12,40 +12,6 @@
 
 <body>
     <header>
-        <div class="collapse" id="navbarToggleExternalContent">
-            <div class="p-4" style="background-color: #FFF1E7;">
-                <h5 class="text-body-emphasis h4">Aplicacion de nutricion</h5>
-                <p><span class="text-body-secondary">Contenido de nutriApp</span></p>
-                <li>
-                    <a class="navbar-brand" href="/registrosecion"> 
-                        <img src="https://icon-library.com/images/login-icon/login-icon-3.jpg" alt="Logo" width="20" height="20"
-                                class="d-inline-block align-text-top"> 
-                                Crear cuenta
-                    </a>
-                </li>
-                <li>
-                    <a class="navbar-brand" href="/calendary"> 
-                        <img src="https://www.pngmart.com/files/21/Agenda-PNG-Pic.png" alt="Logo" width="20" height="20"
-                                class="d-inline-block align-text-top"> 
-                                Plan alimenticio
-                    </a>
-                </li>
-                <li>
-                    <a class="navbar-brand" href="/calendary"> 
-                        <img src="https://th.bing.com/th/id/R.5f58199705702af0d04a52096774e8cd?rik=Te%2fBTLdC%2fJxSsg&pid=ImgRaw&r=0" alt="Logo" width="20" height="20"
-                                class="d-inline-block align-text-top"> 
-                                Control alimenticio
-                    </a>
-                </li>
-                <li>
-                    <a class="navbar-brand" href="/inciosecion"> 
-                        <img src="https://pic.mksucai.com/00/38/60/68b5f78b5e22acdb.webp" alt="Logo" width="20" height="20"
-                                class="d-inline-block align-text-top"> 
-                                Iniciar Sesion
-                    </a>
-                </li>
-            </div>
-        </div>
         <nav class="navbar" style="background-color: #FBCEB1;">
             <div class="row">
                 <div class="col-1">ㅤ</div>
@@ -73,6 +39,55 @@
                 </div>
             </div>
         </nav>
+
+        <div class="collapse" id="navbarToggleExternalContent">
+            <div class="p-4" style="background-color: #FFF1E7;">
+                <h5 class="text-body-emphasis h4">Aplicacion de nutricion</h5>
+                <p><span class="text-body-secondary">Contenido de nutriApp</span></p>
+                <ul>
+                    <li>
+                    <a class="navbar-brand" href="/registrosecion"> 
+                        <img src="https://icon-library.com/images/login-icon/login-icon-3.jpg" alt="Logo" width="20" height="20"
+                                class="d-inline-block align-text-top"> 
+                                Crear cuenta
+                    </a>
+                </li>
+                <li>
+                    <a class="navbar-brand" href="/calendary"> 
+                        <img src="https://www.pngmart.com/files/21/Agenda-PNG-Pic.png" alt="Logo" width="20" height="20"
+                                class="d-inline-block align-text-top"> 
+                                Plan alimenticio
+                    </a>
+                </li>
+                <li>
+                    <a class="navbar-brand" href="/calendary"> 
+                        <img src="https://th.bing.com/th/id/R.5f58199705702af0d04a52096774e8cd?rik=Te%2fBTLdC%2fJxSsg&pid=ImgRaw&r=0" alt="Logo" width="20" height="20"
+                                class="d-inline-block align-text-top"> 
+                                Control alimenticio
+                    </a>
+                </li>
+                <li>
+
+                    {% if not session.correo %}
+                        <a class="navbar-brand" href="/inciosecion"> 
+                            <img src="https://pic.mksucai.com/00/38/60/68b5f78b5e22acdb.webp" alt="Logo" width="20" height="20"
+                                class="d-inline-block align-text-top"> 
+                                Iniciar Sesion
+                        </a>
+                    {% else %}
+                        <a class="navbar-brand" href="/logout"> 
+                            <img src="https://pic.mksucai.com/00/38/60/68b5f78b5e22acdb.webp" alt="Logo" width="20" height="20"
+                                class="d-inline-block align-text-top"> 
+                                Cerrar Sesion
+                        </a>
+                    {% endif %}
+
+                    
+                </li>
+                </ul>
+                
+            </div>
+        </div>
     </header>
 
     {% block contenido %}
