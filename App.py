@@ -75,12 +75,16 @@ def valida():
         flash("Todos los campos son obligatorios", "error")
         return redirect(url_for("sesion"))
     else:
-        if email == session["correo"] and password == session["contraseña"]:
-            valid = True
-            flash("Sesion iniciada correctamente")
-            return redirect(url_for("principal"))
+        if session != None:
+            if email == session["correo"] and password == session["contraseña"]:
+                session["valida"]=True
+                flash("Sesion iniciada correctamente")
+                return redirect(url_for("principal"))
+            else:
+                flash("Los datos de usuario no coinciden", "error")
+                return redirect(url_for("sesion"))
         else:
-            flash("Los datos de usuario no coinciden", "error")
+            flash("Aun no hay ususarios registrados", "error")
             return redirect(url_for("sesion"))
 
 @app.route('/registro', methods = ['GET','POST'])
@@ -92,14 +96,23 @@ def registro():
         peso = request.form['peso']
         altura = request.form['altura']
         edad = request.form['edad']
+        imgPerfil = request.form['imgPerfil']
         
         if not nombre or not correo or not contraseña or not peso or not altura or not edad:
             flash("Todos los campos son obligatorios", "error")
             return redirect(url_for("registrosecion"))
         else:
             flash(f"Nuevo usuario existente: nombre: {nombre} correo: {correo} contraseña: {contraseña} peso: {peso} altura: {altura} edad: {edad}")
+            session["nombre"] = nombre
             session["correo"] = correo 
             session["contraseña"]= contraseña
+            session["valida"]=False
+
+            if not imgPerfil:
+                session["imagen"]= "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+            else:
+                session["imagen"]= imgPerfil
+
             return redirect(url_for("registrosecion"))
             
     return redirect(url_for('index'))

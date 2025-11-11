@@ -66,24 +66,42 @@
                                 Control alimenticio
                     </a>
                 </li>
-                <li>
+                
 
-                    {% if not session.correo %}
+                {% if not session.valida or session.valida == False %}
+                    <li>
                         <a class="navbar-brand" href="/inciosecion"> 
                             <img src="https://pic.mksucai.com/00/38/60/68b5f78b5e22acdb.webp" alt="Logo" width="20" height="20"
                                 class="d-inline-block align-text-top"> 
                                 Iniciar Sesion
                         </a>
-                    {% else %}
-                        <a class="navbar-brand" href="/logout"> 
-                            <img src="https://pic.mksucai.com/00/38/60/68b5f78b5e22acdb.webp" alt="Logo" width="20" height="20"
-                                class="d-inline-block align-text-top"> 
-                                Cerrar Sesion
+                    </li>
+                {% else %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Bienvenido {{session.nombre}}
                         </a>
-                    {% endif %}
+                        <ul class="dropdown-menu text-center">
+                            <li class="mb-2">
+                                <img src="{{session.imagen}}"
+                                    alt="Perfil" class="rounded-circle" style="width: 70px; height: 70px;">
+                            </li>
+                            <li class="mb-2 fw-semibold">{{session.nombre}}</li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item fw-semibold" tabindex="0" href="#"> Perfil </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item text-danger fw-bold" tabindex="0" href="/logout"> Cerrar sesión </a>
+                            </li>
+                        </ul>
+                    </li>
+                {% endif %}
 
                     
-                </li>
+                
                 </ul>
                 
             </div>
@@ -91,7 +109,7 @@
     </header>
 
     {% block contenido %}
-
+    
     {% endblock %}
 
 
