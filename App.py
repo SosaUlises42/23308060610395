@@ -1,7 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 
-comidas =[]
-
 app = Flask(__name__)
 app.secret_key = "clave-secreta"
 
@@ -39,25 +37,14 @@ def registrosecion():
 
 @app.route('/crtlComida')
 def crtlComida():
-    return render_template('ctrl.html', table = comidas)
+    return render_template('ctrl.html')
 
 @app.route('/control', methods=['GET', 'POST'])
 def control():
     if request.method == 'POST':
-        alimento = request.form.get('alimento', '')
-        calorias = request.form.get('calorias', '')
-        proteinas = request.form.get('proteinas', '')
-        cahrbohidratos = request.form.get('cahrbohidratos', '')
-        grasas = request.form.get('grasas', '')
-
-        if alimento and calorias and proteinas and cahrbohidratos and grasas:
-            comidas.append({
-                'nombre':alimento,
-                'calorias':calorias,
-                'proteinas':proteinas,
-                'cahrbohidratos':cahrbohidratos,
-                'grasas':grasas
-            })
+        busqueda = request.form['peso']
+        altura = request.form['altura']
+        edad = request.form['edad']
 
     return redirect(url_for('crtlComida'))
 

@@ -1,74 +1,61 @@
 {% extends 'base.html' %}
 
 {% block contenido %}
-<div class="card bg-dark shadow-lg p-3 mb-5 bg-body-tertiary rounded">
-    <img src="https://www.somosmamas.com.ar/wp-content/uploads/2019/04/comidas-saludables.jpg" class="card-img">
-    <div class="card-img-overlay">
-        <p>ㅤㅤ</p>
-        <div class="row">
-            <div class="col-1"></div>
-            <div class="col-10 bg-light shadow-lg p-3 mb-5 bg-body-tertiary rounded">
-                <div class="container text-center shadow-sm p-3 mb-5 bg-body-tertiary rounded bg-danger-subtle">
-                    <h3 class="text-center text-light">⚖️Control alimenticio⚖️</h3>  
-                </div>
-
-                <form id="control" method="post" action="{{url_for('control')}}">
-                    <input type="text" class="form-control border" placeholder="Nombre del alimento" name="alimento"
-                            value="{{ request.form.get('alimento', '') }}">
-                            <p>ㅤㅤ</p>
-                            <div class="row">
-                                <div class="col-3">
-                                    <input type="number" class="form-control border" placeholder="calorias(g)" name="calorias"
-                                    value="{{ request.form.get('calorias', '') }}">
-                                </div>
-                                <div class="col-3">
-                                    <input type="number" class="form-control border" placeholder="proteinas(g)" name="proteinas"
-                                    value="{{ request.form.get('proteinas', '') }}">
-                                </div>
-                                <div class="col-3">
-                                    <input type="number" class="form-control border" placeholder="cahrbohidratos(g)" name="cahrbohidratos"
-                                    value="{{ request.form.get('cahrbohidratos', '') }}">
-                                </div>
-                                <div class="col-3">
-                                    <input type="number" class="form-control border" placeholder="grasas(g)" name="grasas"
-                                    value="{{ request.form.get('grasas', '') }}">
-                                </div>
-                            </div>
-                </form>
-                <p>ㅤㅤ</p>
-                <div class="d-grid gap-2 mx-auto">
-                    <button type="submit" class="btn btn-danger text-light border" form="control">Agregar alimento</button>
-                    <a href="/" class="btn btn-danger" role="button" aria-disabled="true">Volver a inicio</a>
-                </div>
-            </div>
-            <div class="col-1"></div>
-        </div>
+<div class="position-relative text-center">
+  <img
+    src="https://img.imageboss.me/onestep/cdn/assets/site/blog/tips-to-keep-your-calorie-tracking-on-the-right-path.png"
+    class="w-100">
+  <div class="position-absolute top-0 start-0 w-100 h-100 overflow-y-auto">
+    <div
+      class="container border border-2 border-black d-flex rounded mb-3 my-5 align-items-center justify-content-center"
+      style="max-width: 800px; height: 100px; background-color: #f6e652;">
+      <h2 class="fw-lighter text-black">Calculadora de Gasto Calórico Total (GCT)</h2>
+      <i class="bi bi-battery-half fs-2 text-black"></i>
     </div>
+
+    <div class="card mx-auto my-5 bg-dark bg-opacity-75" style="width: 750px; height: 550px;">
+      <img src="https://fitgeneration.es/wp-content/uploads/2023/06/Gasto-energetico-diario-GET-52.png" class="card-img-top" style="width: 750px; height: 300px;">
+      <div class="card-body">
+
+        <form id="control" method="post" action="{{url_for('control')}}">
+          <div class="row mb-3">
+            <div class="col-4">
+              <input type="text" class="form-control border" placeholder="Peso(kg)" name="peso"
+                value="{{ request.form.get('peso', '') }}" style="background-color: #f6e652;">
+            </div>
+            <div class="col-4">
+              <input type="text" class="form-control border" placeholder="Altura(cm)" name="altura"
+                value="{{ request.form.get('altura', '') }}" style="background-color: #f6e652;">
+            </div>
+            <div class="col-4">
+              <input type="text" class="form-control border" placeholder="Edad(años)" name="edad"
+                value="{{ request.form.get('edad', '') }}" style="background-color: #f6e652;">
+            </div>
+          </div>
+
+          <select class="form-select form-select-sm mb-3" style="background-color: #f6e652;" aria-label="Small select example">
+            <option selected>Selecciona tu genero</option>
+            <option value="1">Hombre</option>
+            <option value="2">Mujer</option>
+          </select>
+
+          <select class="form-select form-select-sm" style="background-color: #f6e652;" aria-label="Small select example">
+            <option selected>Selecciona una opcion</option>
+            <option value="1">Sedentario</option>
+            <option value="2">Activo</option>
+            <option value="3">Alto rendimiento</option>
+          </select>
+
+          <hr class="my-4 border-3 border-warning opacity-100">
+
+          <p class="fw-semi-bolder text-warning text-start">Tu gasto energético kcal/día es:</p>
+
+        </form>
+
+      </div>
+    </div>
+
+  </div>
 </div>
 
-<div class="container">
-    <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Nombre del alimento</th>
-            <th scope="col">calorias</th>
-            <th scope="col">proteinas</th>
-            <th scope="col">cahrbohidratos</th>
-            <th scope="col">grasas</th>
-          </tr>
-        </thead>
-        <tbody>
-            {% for x in tabla %}
-            <tr>
-              <th scope="row">{{ loop.index }}</th>
-              <td>{{ x.nombre }}</td>
-              <td>{{ x.calorias }}</td>
-              <td>{{ x.proteinas }}</td>
-              <td>{{ x.carbohidratos }}</td>
-              <td>{{ x.grasas }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-      </table>
-</div>
 {% endblock %}
