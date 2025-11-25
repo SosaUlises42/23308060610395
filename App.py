@@ -7,9 +7,9 @@ app.secret_key = "clave-secreta"
 def index():
     return render_template('yepez.html')
 
-@app.route('/principal')
-def principal():
-    return render_template('index.html')
+@app.route('/principal/<int:cal>')
+def principal(cal):
+    return render_template('index.html', cal = cal)
 
 @app.route('/buscar', methods = ['POST','GET'])
 def buscar():
@@ -41,10 +41,27 @@ def crtlComida():
 
 @app.route('/control', methods=['GET', 'POST'])
 def control():
+    resultado = None
     if request.method == 'POST':
-        busqueda = request.form['peso']
-        altura = request.form['altura']
-        edad = request.form['edad']
+        peso = float(request.form['peso'])
+        altura = float(request.form['altura'])
+        edad = float(request.form['edad'])
+        genero = request.form['genero']
+        actividad = request.form['actividad']
+
+        if genero == 'hombre':
+            resultado = 88.362 + 13.397 * peso + 4.799 * altura - 5.677 * edad
+        elif genero == 'mujer':
+            resultado = 447.593 + 9.247 * peso + 3.098 * altura - 4.330 * edad
+
+        if actividad == "sedentario":
+            resultado = resultado * 1.2
+        elif actividad == "activo":
+            resultado = resultado * 1.55
+        elif actividad == "altoRendimiento":
+            resultado = resultado * 1.9
+
+        return render_template('ctrl.html', resultado = resultado)
 
     return redirect(url_for('crtlComida'))
 
@@ -66,7 +83,7 @@ def valida():
             if email == session["correo"] and password == session["contraseña"]:
                 session["valida"]=True
                 flash("Sesion iniciada correctamente")
-                return redirect(url_for("principal"))
+                return redirect(url_for("principal", cal = 1))
             else:
                 flash("Los datos de usuario no coinciden", "error")
                 return redirect(url_for("sesion"))
