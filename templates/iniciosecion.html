@@ -9,8 +9,8 @@
         <div class="d-flex align-items-center justify-content-center h-100">
             <div id="formu" class="card border-0 shadow" style="width: 450px; min-height: 650px; background-color: snow;">
 
-                <div class="card-header">
-                    <p class="fs-3 fw-bold text-primary">Perfil del Usuario</p>
+                <div class="card-header" style="background-color: #2DDA89;">
+                    <p class="fs-3 fw-bold text-light">Perfil del Usuario</p>
                 </div>
 
                 <div class="card-body">
@@ -132,7 +132,7 @@
                                 <p>ㅤㅤ</p>
                                 <p>ㅤㅤ</p>
                                 {% endif %}
-                                <button type="submit" class="btn btn-outline-primary my-3 fs-5">
+                                <button type="submit" class="btn text-light my-3 fs-5" style="background-color: #2DDA89;">
                                     {% if paso == 3 %}
                                     Complete
                                     {% else %}
@@ -159,7 +159,7 @@
                             </small>
                         </div>
                         <div class="progress bg-black rounded-5" style="height:10px;">
-                            <div class="progress-bar bg-primary" style="width: {{'33' if paso == 1 else ('66' if paso == 2 else '100')}}%;"></div>
+                            <div class="progress-bar" style="background-color: #2DDA89; width: {{'33' if paso == 1 else ('66' if paso == 2 else '100')}}%;"></div>
                         </div>
                     </div>
                 </div>

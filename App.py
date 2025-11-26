@@ -66,15 +66,13 @@ def macroscal():
             prot_g = masa_magra * 1.6
 
         prot_kcal = prot_g * 4
-        grasa_kcal = grasa_g * 9
 
-        carb_kcal = calorias_objetivo - (prot_kcal + grasa_kcal)
         carb_g = carb_kcal / 4 if carb_kcal > 0 else 0
 
         resultados = {
-            'cal': round(calorias_objetivo),
-            'pro': round(prot_g),
-            'carbo': round(carb_g),
+            'cal': int(calorias_objetivo),
+            'pro': int(prot_g),
+            'carbo': int(carb_g),
         }
 
         return render_template('calendario.html', resultados=resultados)
@@ -205,6 +203,59 @@ def registro(paso):
 def logout():
     session.clear()
     return redirect(url_for("index"))
+
+def evaluar_imc(imc):
+    if imc < 18.5:
+        return "Tienes bajo peso. Es recomendable evaluar tu alimentación.", "alert-warning"
+    elif 18.5 <= imc < 25:
+        return "Tu peso es saludable. ¡Buen trabajo!", "alert-success"
+    elif 25 <= imc < 30:
+        return "Tienes sobrepeso. Considera mejorar hábitos de alimentación.", "alert-warning"
+    else:
+        return "Tienes obesidad. Es recomendable acudir con un profesional de la salud.", "alert-danger"
+
+@app.route("/imc", methods=["GET", "POST"])
+def imc():
+    imc_resultado = None
+    mensaje = None
+    color = None
+
+    if request.method == "POST":
+        try:
+            peso = float(request.form["peso"])
+            altura_cm = float(request.form["altura"])
+            altura = altura_cm / 100  # convertir cm a metros
+
+            imc = peso / (altura ** 2)
+            imc = round(imc, 2)
+
+            mensaje, color = evaluar_imc(imc)
+            imc_resultado = imc
+
+        except:
+            imc_resultado = None
+
+    return render_template("imc.html", imc_resultado=imc_resultado, mensaje=mensaje, color=color)
+
+def calcular_pci(altura_cm, sexo):
+    altura_in = altura_cm / 2.54  # Convertir cm a pulgadas
+    if sexo == "hombre":
+        peso_ideal = 50 + 2.3 * (altura_in - 60)
+    else:  # mujer
+        peso_ideal = 45.5 + 2.3 * (altura_in - 60)
+    return round(peso_ideal, 2)
+
+@app.route("/pci", methods=["GET", "POST"])
+def pci():
+    peso_ideal = None
+    if request.method == "POST":
+        try:
+            altura_cm = float(request.form["altura"])
+            sexo = request.form["sexo"]
+            peso_ideal = calcular_pci(altura_cm, sexo)
+        except:
+            peso_ideal = None
+    return render_template("idealpeso.html", peso_ideal=peso_ideal)
 
 if __name__ == "__main__":
     app.run(debug=True)
