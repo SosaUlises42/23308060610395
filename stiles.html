@@ -1,40 +1,109 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Macronutrientes</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
+<body class="bg-light">
 
-<body>
-    <p class="fs-3 fw-semibold text-primary">Perfil del Usuario</p>
-    <div class="col-10"></div>
-    <div class="container text-center py-5" style="background-color: white;">
-        <p class="mb-1 text-muted">Tu estado de nutrición es de:</p>
-        <h5><strong>Estatura:</strong> Riesgo de estatura baja</h5>
-        <h5><strong>Peso:</strong> Peso saludable</h5>
+  <!-- Imagen de fondo -->
+  <div style="position: fixed; top:0; left:0; width:100%; height:100%; z-index:-1; overflow:hidden;">
+    <img src="https://img.freepik.com/vector-gratis/fondo-dia-mundial-salud-dibujado-mano_23-2149306514.jpg?semt=ais_hybrid&w=740&q=80"
+         alt="Fondo" width="100%" height="100%">
+  </div>
 
-        <div class="mt-4 position-relative">
-            <div class="nutrition-bar">
-                <div class="nutrition-marker"></div>
-                <div class="nutrition-divider divider-1"></div>
-                <div class="nutrition-divider divider-2"></div>
-                <div class="nutrition-divider divider-3"></div>
-            </div>
+  <div class="container mt-5 mb-5 p-4 bg-white rounded" style="opacity: 0.95;">
+    <h2 class="text-center mb-4">Calculadora de Macronutrientes</h2>
 
-            <div class="nutrition-labels">
-                <span>Riesgo de desnutrición</span>
-                <span>Normal</span>
-                <span>Sobrepeso</span>
-                <span>Obesidad</span>
-            </div>
+    <form method="POST">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label>Sexo</label>
+          <select class="form-control" name="sexo" required>
+            <option value="" disabled selected>Selecciona tu sexo</option>
+            <option value="hombre" {% if valores.sexo=='hombre' %}selected{% endif %}>Hombre</option>
+            <option value="mujer" {% if valores.sexo=='mujer' %}selected{% endif %}>Mujer</option>
+          </select>
         </div>
-    </div>
+        <div class="form-group col-md-6">
+          <label>Edad</label>
+          <input type="number" name="edad" class="form-control" min="0" max="120" required value="{{ valores.edad or '' }}">
+        </div>
+      </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label>Peso (kg)</label>
+          <input type="number" name="peso" class="form-control" step="0.1" min="20" max="300" required value="{{ valores.peso or '' }}">
+        </div>
+        <div class="form-group col-md-6">
+          <label>Altura (cm)</label>
+          <input type="number" name="altura" class="form-control" step="0.1" min="50" max="250" required value="{{ valores.altura or '' }}">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Nivel de actividad</label>
+        <select class="form-control" name="actividad" required>
+          <option value="" disabled selected>Selecciona una opción</option>
+          <option value="sedentario" {% if valores.actividad=='sedentario' %}selected{% endif %}>Sedentario</option>
+          <option value="ligero" {% if valores.actividad=='ligero' %}selected{% endif %}>Ligero</option>
+          <option value="moderado" {% if valores.actividad=='moderado' %}selected{% endif %}>Moderado</option>
+          <option value="intenso" {% if valores.actividad=='intenso' %}selected{% endif %}>Intenso</option>
+          <option value="muy_intenso" {% if valores.actividad=='muy_intenso' %}selected{% endif %}>Muy intenso</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Objetivo</label>
+        <select class="form-control" name="objetivo" required>
+          <option value="" disabled selected>Selecciona una opción</option>
+          <option value="perder" {% if valores.objetivo=='perder' %}selected{% endif %}>Perder peso</option>
+          <option value="mantener" {% if valores.objetivo=='mantener' %}selected{% endif %}>Mantener peso</option>
+          <option value="ganar" {% if valores.objetivo=='ganar' %}selected{% endif %}>Ganar peso</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block mt-3">Calcular</button>
+    </form>
+
+    {% if mensaje %}
+      <div class="alert mt-3 {{ color }}">
+        {{ mensaje }}
+      </div>
+    {% endif %}
+
+    {% if resultado %}
+      <div class="mt-4 p-3 border rounded bg-light">
+        <h4>Resultados</h4>
+        <p><strong>TMB (Mifflin-St Jeor):</strong> {{ resultado.tmb_mifflin }} kcal</p>
+        <p><strong>TDEE:</strong> {{ resultado.tdee }} kcal</p>
+        <p><strong>Calorías ajustadas:</strong> {{ resultado.calorias_ajustadas }} kcal</p>
+
+        <h5>Macronutrientes diarios:</h5>
+        <ul>
+          <li>Proteína: {{ resultado.proteina_g }} g ({{ resultado.proteina_pct }}%)</li>
+          <li>Carbohidratos: {{ resultado.carbo_g }} g ({{ resultado.carbo_pct }}%)</li>
+          <li>Grasas: {{ resultado.grasa_g }} g ({{ resultado.grasa_pct }}%)</li>
+        </ul>
+
+        <h5>Consumo recomendado:</h5>
+        <table class="table table-bordered table-sm" style="max-width:400px;">
+          <thead class="thead-light">
+            <tr><th>Macro</th><th>Mín</th><th>Máx</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Carbohidratos</td><td>{{ consumo_recomendado.carbohidratos[0] }} g</td><td>{{ consumo_recomendado.carbohidratos[1] }} g</td></tr>
+            <tr><td>Proteínas</td><td>{{ consumo_recomendado.proteinas[0] }} g</td><td>{{ consumo_recomendado.proteinas[1] }} g</td></tr>
+            <tr><td>Grasas</td><td>{{ consumo_recomendado.grasas[0] }} g</td><td>{{ consumo_recomendado.grasas[1] }} g</td></tr>
+          </tbody>
+        </table>
+      </div>
+    {% endif %}
+
+</div>
+
 </body>
-
 </html>

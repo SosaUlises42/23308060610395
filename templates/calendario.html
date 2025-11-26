@@ -1,94 +1,89 @@
 {% extends 'base.html' %}
 
 {% block contenido %}
-<div class="card bg-transparent">
-    <img src="https://www.somosmamas.com.ar/wp-content/uploads/2019/04/comidas-saludables.jpg" class="card-img">
-    <div class="card-img-overlay">
-        <div class="row">
-            <div class="col-1"></div>
-            <div class="col-10 bg-light shadow-lg p-3 mb-5 bg-body-tertiary rounded">
-                <div class="container text-center shadow-sm p-3 mb-5 bg-body-tertiary rounded bg-danger-subtle">
-                    <h3 class="text-center text-light">📆Agenda Noviembre✏️</h3>  
-                </div>
-                <table class="table table-bordered border-danger text-center align-middle">
-                    <thead class="table-danger">
-                        <tr>
-                            <th>Lun</th>
-                            <th>Mar</th>
-                            <th>Mié</th>
-                            <th>Jue</th>
-                            <th>Vie</th>
-                            <th>Sáb</th>
-                            <th>Dom</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>4</td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>6</td>
-                            <td>7</td>
-                            <td>8</td>
-                            <td>9</td>
-                            <td>10</td>
-                            <td>11</td>
-                        </tr>
-                        <tr>
-                            <td>12</td>
-                            <td>13</td>
-                            <td>14<br></td>
-                            <td>15</td>
-                            <td>16</td>
-                            <td>17</td>
-                            <td>18</td>
-                        </tr>
-                        <tr>
-                            <td>19</td>
-                            <td>20</td>
-                            <td>21</td>
-                            <td>22</td>
-                            <td>23</td>
-                            <td>24</td>
-                            <td>25</td>
-                        </tr>
-                        <tr>
-                            <td>26</td>
-                            <td>27</td>
-                            <td>28</td>
-                            <td>29</td>
-                            <td>30</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <p>ㅤㅤ</p>
-                <h6 class="text-secondary">ㅤㅤAgendar;</h6>
-                <p>ㅤㅤ</p>
-                <form id="agenda">
-                    <input type="number" class="form-control border" placeholder="Fecha" name="nombre">
-                    <div class="form-floating mb-3">
-                        <textarea class="form-control" placeholder="Evento" id="floatingTextarea2" style="height: 100px"></textarea>
-                        <label for="floatingTextarea2">Evento</label>
+<div class="position-relative text-center">
+    <img src="https://img.freepik.com/premium-photo/healthy-foods-background-with-copy-space-banner-card-generative-ai_159242-26737.jpg?w=2000"
+        class="w-100">
+    <div class="position-absolute top-0 start-0 w-100 h-100 overflow-y-auto">
+
+        <div class="container border border-2 border-black d-flex rounded mb-3 my-5 align-items-center justify-content-center"
+            style="max-width: 800px; height: 100px; background-color: #7DF9FF;">
+            <h2 class="fw-lighter text-black">Calculadora de Macronutrientes</h2>
+            <i class="bi bi-graph-up fs-2 text-black"></i>
+        </div>
+
+        <div class="card mx-auto my-5 bg-dark bg-opacity-75" style="width: 750px;">
+            <img src="https://static.wixstatic.com/media/eb24be_5774a2ac39c2499984c7e1834d008d25~mv2.png/v1/fill/w_1000,h_563,al_c,q_90,usm_0.66_1.00_0.01/eb24be_5774a2ac39c2499984c7e1834d008d25~mv2.png"
+                class="card-img-top" style="width: 750px; height: 375px;">
+            <div class="card-body">
+
+                <form id="macroscal" method="post" action="{{url_for('macroscal')}}">
+                    <div class="row mb-3">
+                        <div class="col-4">
+                            <input type="number" class="form-control border border-0" placeholder="Peso(kg)" name="peso"
+                            style="background-color: #7DF9FF;"value="{{ request.form.get('peso', '') }}">
+                        </div>
+                        <div class="col-4">
+                            <input type="number" class="form-control border border-0" placeholder="Altura(cm)" name="altura"
+                            style="background-color: #7DF9FF;" value="{{ request.form.get('altura', '') }}">
+                        </div>
+                        <div class="col-4">
+                            <input type="number" class="form-control border border-0" placeholder="Edad(años)" name="edad"
+                            style="background-color: #7DF9FF;" value="{{ request.form.get('edad', '') }}">
+                        </div>
                     </div>
+
+                    <input type="number" class="form-control mb-3 border-0" placeholder="% de grasa" name="grasa"
+                        style="background-color: #7DF9FF;" value="{{ request.form.get('grasa', '') }}">
+
+                    <select name="genero" class="form-select form-select-sm mb-3 border-0"
+                        style="background-color: #7DF9FF;" aria-label="Small select example">
+                        <option selected>Selecciona tu genero</option>
+                        <option value="hombre">Hombre</option>
+                        <option value="mujer">Mujer</option>
+                    </select>
+
+                    <select name="actividad" class="form-select form-select-sm mb-3 border-0"
+                        style="background-color: #7DF9FF;" aria-label="Small select example">
+                        <option selected>Selecciona tu nivel de actividad</option>
+                        <option value="sedentario">Sedentario</option>
+                        <option value="activo">Activo</option>
+                        <option value="altoRendimiento">Alto rendimiento</option>
+                    </select>
+
+                    <select name="objetivos" class="form-select form-select-sm mb-3 border-0"
+                        style="background-color: #7DF9FF;" aria-label="Small select example">
+                        <option selected>Selecciona un objetivo</option>
+                        <option value="-peso">Perder peso</option>
+                        <option value="+musculo">Ganar musculo</option>
+                        <option value="=peso">Mantenerse en su peso</option>
+                    </select>
+
+                    <hr class="my-4 border-3 opacity-100" style="border-color:#7DF9FF;">
+
+                    <div class="row">
+                        <div class="col-8">
+                            <p class="fw-semi-bolder text-start" style="color: #7DF9FF;">Resultados: 
+                                {% if resultados %}
+                                Calorias:<strong>{{resultados.cal}}</strong>
+                                Proteinas:<strong>{{resultados.pro}}</strong>
+                                Carbohidratos:<strong>{{resultados.carbo}}</strong>
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="col-4">
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <button type="submit" class="btn" style="background-color: #7DF9FF;">
+                                    <i class="bi bi-calculator fs-5"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
                 </form>
-                <p>ㅤㅤ</p>
-                <div class="d-grid gap-2 mx-auto">
-                    <button type="submit" class="btn btn-danger text-light border" form="agenda">Agendar evento</button>
-                    <a href="/" class="btn btn-danger" role="button" aria-disabled="true">Volver a inicio</a>
-                </div>
 
             </div>
-            <div class="col-1"></div>
         </div>
+
     </div>
 </div>
-    {% endblock %}
+{% endblock %}

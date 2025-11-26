@@ -20,26 +20,26 @@
         <form id="control" method="post" action="{{url_for('control')}}">
           <div class="row mb-3">
             <div class="col-4">
-              <input type="number" class="form-control border" placeholder="Peso(kg)" name="peso"
+              <input type="number" class="form-control border border-0" placeholder="Peso(kg)" name="peso"
                 value="{{ request.form.get('peso', '') }}" style="background-color: #f6e652;">
             </div>
             <div class="col-4">
-              <input type="number" class="form-control border" placeholder="Altura(cm)" name="altura"
+              <input type="number" class="form-control border border-0" placeholder="Altura(cm)" name="altura"
                 value="{{ request.form.get('altura', '') }}" style="background-color: #f6e652;">
             </div>
             <div class="col-4">
-              <input type="number" class="form-control border" placeholder="Edad(años)" name="edad"
+              <input type="number" class="form-control border border-0" placeholder="Edad(años)" name="edad"
                 value="{{ request.form.get('edad', '') }}" style="background-color: #f6e652;">
             </div>
           </div>
 
-          <select name="genero" class="form-select form-select-sm mb-3" style="background-color: #f6e652;" aria-label="Small select example">
+          <select name="genero" class="form-select form-select-sm mb-3 border-0" style="background-color: #f6e652;" aria-label="Small select example">
             <option selected>Selecciona tu genero</option>
             <option value="hombre">Hombre</option>
             <option value="mujer">Mujer</option>
           </select>
           
-          <select name="actividad" class="form-select form-select-sm border" style="background-color: #f6e652;" aria-label="Small select example">
+          <select name="actividad" class="form-select form-select-sm border border-0" style="background-color: #f6e652;" aria-label="Small select example">
             <option selected>Selecciona una opcion</option>
             <option value="sedentario">Sedentario</option>
             <option value="activo">Activo</option>

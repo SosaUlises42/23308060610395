@@ -19,21 +19,77 @@ def buscar():
         if busqueda == "calendario" or busqueda == "agenda" or busqueda == "plan":
             return redirect(url_for('calendary'))
         elif busqueda == "control alimenticio" or busqueda == "contar calorias" or busqueda == "comparar alimentos":
-            flash('Estamos trabajando en esta seccion')
-            return redirect(url_for('principal'))
-        else:
-            flash('Ningun resultado coincide con la busqueda', 'error')
-            return redirect(url_for('principal')) 
+            return redirect(url_for('crtlComida')) 
     
     return render_template('index.html')
 
-@app.route('/calendary')
-def calendary():
+@app.route('/macroscal', methods = ['POST','GET'])
+def macroscal():
+    if request.method == 'POST':
+        peso = float(request.form['peso'])
+        altura = float(request.form['altura'])
+        edad = float(request.form['edad'])
+        grasa = float(request.form['grasa'])
+        genero = request.form['genero']
+        actividad = request.form['actividad']
+        objetivos = request.form['objetivos']
+
+        if genero == 'hombre':
+            tmb = 10 * peso + 6.25 * altura - 5 * edad + 5
+        else:
+            tmb = 10 * peso + 6.25 * altura - 5 * edad - 161
+
+        factores = {
+            'sedentario': 1.2,
+            'ligero': 1.375,
+            'moderado': 1.55,
+            'intenso': 1.725,
+            'muy_intenso': 1.9
+        }
+        factor_act = factores.get(actividad, 1.2)
+        gct = tmb * factor_act
+
+        if objetivos == 'bajar':
+            calorias_objetivo = gct - 400
+        elif objetivos == 'subir':
+            calorias_objetivo = gct + 300
+        else:
+            calorias_objetivo = gct
+
+        masa_magra = peso * (1 - grasa / 100.0)
+
+        if objetivos == 'bajar':
+            prot_g = masa_magra * 2.0
+        elif objetivos == 'subir':
+            prot_g = masa_magra * 2.0
+        else:  # mantener
+            prot_g = masa_magra * 1.6
+
+        prot_kcal = prot_g * 4
+        grasa_kcal = grasa_g * 9
+
+        carb_kcal = calorias_objetivo - (prot_kcal + grasa_kcal)
+        carb_g = carb_kcal / 4 if carb_kcal > 0 else 0
+
+        resultados = {
+            'cal': round(calorias_objetivo),
+            'pro': round(prot_g),
+            'carbo': round(carb_g),
+        }
+
+        return render_template('calendario.html', resultados=resultados)
+
     return render_template('calendario.html')
 
-@app.route('/registrosecion')
-def registrosecion():
-    return render_template('iniciosecion.html')
+
+
+@app.route('/macros')
+def macros():
+    return render_template('calendario.html')
+
+@app.route('/registrosecion/<int:paso>')
+def registrosecion(paso):
+    return render_template('iniciosecion.html', paso = paso)
 
 @app.route('/crtlComida')
 def crtlComida():
@@ -91,33 +147,57 @@ def valida():
             flash("Aun no hay ususarios registrados", "error")
             return redirect(url_for("sesion"))
 
-@app.route('/registro', methods = ['GET','POST'])
-def registro():
+@app.route('/registro/<int:paso>', methods = ['GET','POST'])
+def registro(paso):
     if request.method == 'POST':
-        nombre = request.form['nombre']
-        correo = request.form['correo']
-        contraseña = request.form['contraseña']
-        peso = request.form['peso']
-        altura = request.form['altura']
-        edad = request.form['edad']
-        imgPerfil = request.form['imgPerfil']
-        
-        if not nombre or not correo or not contraseña or not peso or not altura or not edad:
-            flash("Todos los campos son obligatorios", "error")
-            return redirect(url_for("registrosecion"))
-        else:
-            flash(f"Nuevo usuario existente: nombre: {nombre} correo: {correo} contraseña: {contraseña} peso: {peso} altura: {altura} edad: {edad}")
-            session["nombre"] = nombre
-            session["correo"] = correo 
-            session["contraseña"]= contraseña
-            session["valida"]=False
 
-            if not imgPerfil:
-                session["imagen"]= "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+        if paso == 1:
+            nombre = request.form['nombre']
+            correo = request.form['correo']
+            contraseña = request.form['contraseña']
+            peso = request.form['peso']
+            altura = request.form['altura']
+            edad = request.form['edad']
+            imgPerfil = request.form['imgPerfil']
+            genero = request.form['genero']
+            actividad = request.form['actividad']
+            
+            if not nombre or not correo or not contraseña or not peso or not altura or not edad or not genero or not actividad:
+                flash("Todos los campos son obligatorios", "error")
+                return redirect(url_for("registrosecion", paso = 1) + "#formu")
             else:
-                session["imagen"]= imgPerfil
+                session["nombre"] = nombre
+                session["correo"] = correo 
+                session["contraseña"]= contraseña
+                session["valida"]=False
 
-            return redirect(url_for("registrosecion"))
+                if not imgPerfil:
+                    session["imagen"]= "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                else:
+                    session["imagen"]= imgPerfil
+
+            return redirect(url_for("registrosecion", paso = paso + 1) + "#formu")
+        elif paso == 2:
+            objetivos = request.form.getlist("objetivos")
+
+
+            if not objetivos:
+                flash("Por favor selecciona almenos un objetivo", "error")
+                return redirect(url_for("registrosecion", paso = 2) + "#formu")
+            else:
+                return redirect(url_for("registrosecion", paso = paso + 1) + "#formu")
+        else:
+            alergias = request.form['alergias']
+            intolerancias = request.form['intolerancias']
+            dietas = request.form['dietas']
+            disgusta = request.form['disgusta']
+            nivel = request.form['nivel']
+
+            if not alergias or not intolerancias or not dietas or not disgusta or not nivel:
+                flash("Todos los campos son obligatorios", "error")
+                return redirect(url_for("registrosecion", paso = 3) + "#formu")
+            else:
+                return redirect(url_for("principal", cal = 1))
             
     return redirect(url_for('index'))
 
