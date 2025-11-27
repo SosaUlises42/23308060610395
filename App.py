@@ -1,4 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
+import requests
+
+API_KEY = "h5mDjpnjN1Z5X2qyHRJ8gSbhyaCP4f6P2WfcEjGz"
 
 app = Flask(__name__)
 app.secret_key = "clave-secreta"
@@ -256,6 +259,42 @@ def pci():
         except:
             peso_ideal = None
     return render_template("idealpeso.html", peso_ideal=peso_ideal)
+
+@app.route('/api/<string:name>/<int:cal>/<int:pro>', methods=["GET", "POST"])
+def api(name,cal,pro):
+    if request.method == "POST":
+        busqueda = request.form['busqueda']
+        resp = requests.get(f"https://api.nal.usda.gov/fdc/v1/foods/search?api_key={API_KEY}&query={busqueda}")
+
+        if resp.status_code == 200:
+            comida_data = resp.json()
+
+            if comida_data.get('foods'):
+                alimentos = comida_data['foods']
+
+                listaC = []
+                listaS = []
+
+                for x in alimentos:
+                    food_data = {
+                        'name':x['description'],
+                        'calorias':next((n['value'] for n in x['foodNutrients'] if n['nutrientName'] == 'Energy'),None),
+                        'proteina':next((n['value'] for n in x['foodNutrients'] if n['nutrientName'] == 'Protein'),None)
+                    }
+
+                    listaC.append(food_data)
+
+                    if len(listaC) == 4:
+                        listaS.append(listaC)
+                        listaC = []
+
+                if listaC:
+                    listaS.append(listaC)
+
+                return render_template('api.html', name=name, cal=cal, pro=pro, comidas=listaS)
+                
+
+    return render_template('api.html', name=name, cal=cal, pro=pro)
 
 if __name__ == "__main__":
     app.run(debug=True)
