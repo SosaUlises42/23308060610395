@@ -7,7 +7,7 @@
     <div class="position-absolute top-0 start-0 w-100 h-100 overflow-y-auto">
         <div class="container mt-5">
 
-            <!-- Primer artículo: Cómo leer las etiquetas nutricionales -->
+            {% if art == 1 %}
             <div class="card border-0 rounded-4 shadow-lg mb-5 rounded">
                 <img src="https://www.neolifesalud.com/wp-content/uploads/Etiquetado-nutricional-1.jpg"
                     class="card-img-top">
@@ -16,8 +16,9 @@
                     <p>Las etiquetas nutricionales son esenciales para tomar decisiones informadas sobre lo que comemos. Asegúrate de revisar la porción indicada, las calorías totales, los macronutrientes como grasas, proteínas y carbohidratos, y los porcentajes de valor diario (%VD). Con esta información, puedes gestionar tu ingesta y alcanzar tus objetivos de salud.</p>
                 </div>
             </div>
+            {% endif %}
 
-            <!-- Segundo artículo: Guías sobre macronutrientes y su función -->
+            {% if art == 2 %}
             <div class="card border-0 rounded-4 shadow-lg mb-5 rounded">
                 <img src="https://www.blog.herbora.es/wp-content/uploads/2016/11/mito-y-realidad-19-las-dietas-de-moda_95360.jpg"
                     class="card-img-top">
@@ -26,8 +27,9 @@
                     <p>Los macronutrientes incluyen carbohidratos, proteínas y grasas. Los carbohidratos proporcionan energía, las proteínas son esenciales para la construcción y reparación de los tejidos, y las grasas son necesarias para funciones vitales como la absorción de vitaminas. Una dieta balanceada debe contener todos estos macronutrientes en proporciones adecuadas.</p>
                 </div>
             </div>
+            {% endif %}
 
-            <!-- Tercer artículo: Mitos y verdades sobre las dietas de moda -->
+            {% if art == 3 %}
             <div class="card border-0 rounded-4 shadow-lg mb-5 rounded">
                 <img src="https://www.calistenia.net/wp-content/uploads/2017/07/Macronutrientes.png"
                     class="card-img-top">
@@ -36,8 +38,9 @@
                     <p>Las dietas de moda prometen resultados rápidos, pero muchas veces son insostenibles a largo plazo. Es importante distinguir entre mitos y hechos comprobados por la ciencia. Las dietas extremas pueden llevar a deficiencias nutricionales. Lo mejor es optar por un enfoque equilibrado y sostenible que se adapte a tus necesidades individuales.</p>
                 </div>
             </div>
+            {% endif %}
 
-            <!-- Cuarto artículo: La importancia de la hidratación, la fibra, etc. -->
+            {% if art == 4 %}
             <div class="card border-0 rounded-4 shadow-lg mb-5 rounded">
                 <img src="https://www.splenda.com/wp-content/uploads/2022/04/drink-more-water-blog-article-pouring-glass-1200x800-1.jpg"
                     class="card-img-top">
@@ -46,6 +49,7 @@
                     <p>La hidratación es crucial para el funcionamiento de nuestro cuerpo, ya que el agua regula la temperatura, transporta nutrientes y elimina desechos. Además, la fibra es esencial para una digestión saludable y ayuda a controlar el peso. Mantén un equilibrio adecuado de agua, fibra y otros nutrientes para una salud óptima.</p>
                 </div>
             </div>
+            {% endif %}
 
         </div>
     </div>

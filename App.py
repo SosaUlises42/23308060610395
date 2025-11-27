@@ -354,9 +354,9 @@ def api(name,cal,pro):
 
     return render_template('api.html', name=name, cal=cal, pro=pro)
 
-@app.route('/articulo')
-def articulo():
-    return render_template('articulo.html')
+@app.route('/articulo/<int:art>')
+def articulo(art):
+    return render_template('articulo.html', art = art)
 
 if __name__ == "__main__":
     app.run(debug=True)
