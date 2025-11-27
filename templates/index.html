@@ -32,7 +32,7 @@
                 
 
                 <div class="col-md-5">
-                    <a href="/" class="text-decoration-none">
+                    <a href="/articulo" class="text-decoration-none">
 
                         <div class="card border-0 rounded-5 mx-auto" style="background-color: #E8FFE8; width: 450px;">
 
@@ -49,7 +49,7 @@
                 </div>
 
                 <div class="col-md-5">
-                    <a href="/" class="text-decoration-none">
+                    <a href="/articulo" class="text-decoration-none">
 
                         <div class="card border-0 rounded-5 mx-auto" style="background-color: #E8FFE8; width: 450px;">
                         
@@ -66,7 +66,7 @@
                 </div>
 
                 <div class="col-md-5">
-                    <a href="/" class="text-decoration-none">
+                    <a href="/articulo" class="text-decoration-none">
 
                         <div class="card border-0 rounded-5 mx-auto" style="background-color: #E8FFE8; width: 450px;">
                         
@@ -83,7 +83,7 @@
                 </div>
 
                 <div class="col-md-5">
-                    <a href="/" class="text-decoration-none">
+                    <a href="/articulo" class="text-decoration-none">
 
                         <div class="card border-0 rounded-5 mx-auto" style="background-color: #E8FFE8; width: 450px;">
                         
@@ -164,6 +164,7 @@
                         <li class="nav-item">
                             <a class="nav-link 
                             text-{{'dark' if cal == 5 else 'light'}}
+                            {{'disabled' if not session.valida or session.valida == False else ''}}
                             {{'active' if cal == 5 else ''}}" href="\principal\5#calculadoras">Macronutrientes</a>
                         </li>
                         <li class="nav-item">
@@ -254,6 +255,36 @@
                                 (bajar de peso, mantenerte o ganar masa muscular). Con esta herramienta puedes obtener una guía clara sobre cuánto de cada macronutriente necesitas al día,
                                 facilitando la planificación de tus comidas de forma más equilibrada y personalizada.</p>
                             <a href="/macros" class="btn" style="background-color: #2DDA89;"><i
+                                    class="bi bi-calculator-fill fs-1 text-light"></i></a>
+                        </div>
+                    </div>
+                    {% elif cal == 6 %}
+                    <div class="col-md-4">
+                        <img src="https://m.media-amazon.com/images/I/61gW3apV1wL._AC_SL1000_.jpg"
+                        class="img-fluid rounded-start" style="width: auto; height: 300px;">
+                    </div>
+                    <div class="col-md-8 d-flex align-items-center">
+                        <div class="card-body">
+                            <h5 class="card-title fs-2 fw-bold">Analizador de Recetas</h5>
+                            <p class="card-text text-secondary small">La Calculadora de Macronutrientes te ayuda a distribuir las calorías diarias en las proporciones adecuadas de proteínas, carbohidratos y grasas, según tus objetivos
+                                (bajar de peso, mantenerte o ganar masa muscular). Con esta herramienta puedes obtener una guía clara sobre cuánto de cada macronutriente necesitas al día,
+                                facilitando la planificación de tus comidas de forma más equilibrada y personalizada.</p>
+                            <a href="/api/%20/0/0" class="btn" style="background-color: #2DDA89;"><i
+                                    class="bi bi-calculator-fill fs-1 text-light"></i></a>
+                        </div>
+                    </div>
+                    {% elif cal == 7 %}
+                    <div class="col-md-4">
+                        <img src="https://img.freepik.com/vector-premium/foto-mujer-haciendo-posturas-yoga-otras-personas-haciendo-ejercicios_1155605-533.jpg"
+                        class="img-fluid rounded-start" style="width: auto; height: 300px;">
+                    </div>
+                    <div class="col-md-8 d-flex align-items-center">
+                        <div class="card-body">
+                            <h5 class="card-title fs-2 fw-bold">Planillas de ejercicios</h5>
+                            <p class="card-text text-secondary small">La Calculadora de Macronutrientes te ayuda a distribuir las calorías diarias en las proporciones adecuadas de proteínas, carbohidratos y grasas, según tus objetivos
+                                (bajar de peso, mantenerte o ganar masa muscular). Con esta herramienta puedes obtener una guía clara sobre cuánto de cada macronutriente necesitas al día,
+                                facilitando la planificación de tus comidas de forma más equilibrada y personalizada.</p>
+                            <a href="#" class="btn" style="background-color: #2DDA89;"><i
                                     class="bi bi-calculator-fill fs-1 text-light"></i></a>
                         </div>
                     </div>

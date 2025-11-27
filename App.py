@@ -1,10 +1,24 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 import requests
+import mysql.connector
 
 API_KEY = "h5mDjpnjN1Z5X2qyHRJ8gSbhyaCP4f6P2WfcEjGz"
 
 app = Flask(__name__)
 app.secret_key = "clave-secreta"
+
+DB_CONFIG = {
+    "host": "localhost",
+    "user": "root",       # Cambia si tu usuario es otro
+    "password": "",       # Pon tu contraseña si tienes
+    "database": "nutriapp"
+}
+
+def get_connection():
+    """Crear y devolver una conexión nueva a la base de datos."""
+    return mysql.connector.connect(**DB_CONFIG)
+
+
 
 @app.route('/')
 def index():
@@ -69,6 +83,9 @@ def macroscal():
             prot_g = masa_magra * 1.6
 
         prot_kcal = prot_g * 4
+        
+        carb_percent = 0.5
+        carb_kcal = calorias_objetivo * carb_percent
 
         carb_g = carb_kcal / 4 if carb_kcal > 0 else 0
 
@@ -126,27 +143,38 @@ def control():
 def sesion():
     return render_template('sesinguardada.html')
 
-@app.route('/valida', methods=['GET', 'POST'])
+@app.route("/valida", methods=["POST"])
 def valida():
-    if request.method == 'POST':
-        email = request.form.get('email', '').strip()
-        password = request.form.get('password', '')
-    
+    # Validar login
+    email = request.form.get("email", "").strip()
+    password = request.form.get("password", "")
+
     if not email or not password:
         flash("Todos los campos son obligatorios", "error")
         return redirect(url_for("sesion"))
-    else:
-        if session != None:
-            if email == session["correo"] and password == session["contraseña"]:
-                session["valida"]=True
-                flash("Sesion iniciada correctamente")
-                return redirect(url_for("principal", cal = 1))
-            else:
-                flash("Los datos de usuario no coinciden", "error")
-                return redirect(url_for("sesion"))
-        else:
-            flash("Aun no hay ususarios registrados", "error")
-            return redirect(url_for("sesion"))
+
+    conn = get_connection()
+    cur = conn.cursor(dictionary=True)
+    cur.execute("SELECT * FROM usuarios WHERE correo = %s", (email,))
+    user = cur.fetchone()
+    cur.close()
+    conn.close()
+
+    if user and user["contraseña"] == password:
+        # Guardar datos en sesión
+        session["valida"] = True
+        session["user_id"] = user["id"]
+        session["nombre"] = user["nombre"]
+        session["correo"] = user["correo"]
+        session["imgPerfil"] = user["imgPerfil"]
+        session["genero"] = user["genero"]
+        session["actividad"] = user["actividad"]
+
+        flash("Sesión iniciada correctamente", "success")
+        return redirect(url_for("principal", cal=1))
+
+    flash("Correo o contraseña incorrectos", "error")
+    return redirect(url_for("sesion"))
 
 @app.route('/registro/<int:paso>', methods = ['GET','POST'])
 def registro(paso):
@@ -172,12 +200,27 @@ def registro(paso):
                 session["contraseña"]= contraseña
                 session["valida"]=False
 
-                if not imgPerfil:
-                    session["imagen"]= "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-                else:
-                    session["imagen"]= imgPerfil
+                if imgPerfil == "":
+                    imgPerfil = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
 
-            return redirect(url_for("registrosecion", paso = paso + 1) + "#formu")
+            try:
+                conn = get_connection()
+                cur = conn.cursor()
+                cur.execute("""
+                    INSERT INTO usuarios
+                    (nombre, correo, contraseña, peso, altura, edad, imgPerfil, genero, actividad)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+                """, (nombre, correo, contraseña, peso, altura, edad, imgPerfil, genero, actividad))
+                conn.commit()
+                cur.close()
+                conn.close()
+            except Exception as e:
+                print("ERROR:", e)
+                flash("Error al guardar usuario", "error")
+                return redirect(url_for("registrosecion", paso=1))
+
+            return redirect(url_for("registrosecion", paso=2))
+
         elif paso == 2:
             objetivos = request.form.getlist("objetivos")
 
@@ -204,8 +247,23 @@ def registro(paso):
 
 @app.route("/logout")
 def logout():
+    # Cerrar sesión
     session.clear()
-    return redirect(url_for("index"))
+    flash("Sesión cerrada correctamente", "success")
+    return redirect(url_for("sesion"))
+
+def perfil():
+    if not session.get("valida"):
+        return redirect(url_for("sesion"))
+
+    conn = get_connection()
+    cur = conn.cursor(dictionary=True)
+    cur.execute("SELECT * FROM usuarios WHERE id = %s", (session["user_id"],))
+    usuario = cur.fetchone()
+    cur.close()
+    conn.close()
+
+    return render_template("perfil.html", usuario=usuario)
 
 def evaluar_imc(imc):
     if imc < 18.5:
@@ -295,6 +353,10 @@ def api(name,cal,pro):
                 
 
     return render_template('api.html', name=name, cal=cal, pro=pro)
+
+@app.route('/articulo')
+def articulo():
+    return render_template('articulo.html')
 
 if __name__ == "__main__":
     app.run(debug=True)
