@@ -250,11 +250,11 @@ def logout():
     # Cerrar sesión
     session.clear()
     flash("Sesión cerrada correctamente", "success")
-    return redirect(url_for("sesion"))
+    return redirect(url_for("index"))
 
 def perfil():
     if not session.get("valida"):
-        return redirect(url_for("sesion"))
+        return redirect(url_for("index"))
 
     conn = get_connection()
     cur = conn.cursor(dictionary=True)
