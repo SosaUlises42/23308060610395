@@ -145,7 +145,6 @@ def sesion():
 
 @app.route("/valida", methods=["POST"])
 def valida():
-    # Validar login
     email = request.form.get("email", "").strip()
     password = request.form.get("password", "")
 
@@ -160,15 +159,18 @@ def valida():
     cur.close()
     conn.close()
 
+    print(user)
+
     if user and user["contraseña"] == password:
-        # Guardar datos en sesión
         session["valida"] = True
         session["user_id"] = user["id"]
         session["nombre"] = user["nombre"]
         session["correo"] = user["correo"]
-        session["imgPerfil"] = user["imgPerfil"]
+        session["imagen"] = user["imgPerfil"]
         session["genero"] = user["genero"]
         session["actividad"] = user["actividad"]
+        session["peso"] = str(user["peso"])
+        session["altura"] = str(user["altura"])
 
         flash("Sesión iniciada correctamente", "success")
         return redirect(url_for("principal", cal=1))
@@ -195,12 +197,9 @@ def registro(paso):
                 flash("Todos los campos son obligatorios", "error")
                 return redirect(url_for("registrosecion", paso = 1) + "#formu")
             else:
-                session["nombre"] = nombre
-                session["correo"] = correo 
-                session["contraseña"]= contraseña
                 session["valida"]=False
 
-                if imgPerfil == "":
+                if not imgPerfil:
                     imgPerfil = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
 
             try:
@@ -247,23 +246,9 @@ def registro(paso):
 
 @app.route("/logout")
 def logout():
-    # Cerrar sesión
     session.clear()
     flash("Sesión cerrada correctamente", "success")
     return redirect(url_for("index"))
-
-def perfil():
-    if not session.get("valida"):
-        return redirect(url_for("index"))
-
-    conn = get_connection()
-    cur = conn.cursor(dictionary=True)
-    cur.execute("SELECT * FROM usuarios WHERE id = %s", (session["user_id"],))
-    usuario = cur.fetchone()
-    cur.close()
-    conn.close()
-
-    return render_template("perfil.html", usuario=usuario)
 
 def evaluar_imc(imc):
     if imc < 18.5:
@@ -357,6 +342,63 @@ def api(name,cal,pro):
 @app.route('/articulo/<int:art>')
 def articulo(art):
     return render_template('articulo.html', art = art)
+
+@app.route('/perfil')
+def perfil():
+    return render_template('perfil.html')
+
+@app.route('/ejercicios')
+def ejercicios():
+    return render_template('stayhard.html')
+    
+@app.route('/proceso')
+def proceso():
+    return render_template('nohechx.html')
+
+def calcular_tmb(sexo, peso, altura, edad):
+    
+    if sexo == "hombre":
+        return 10 * peso + 6.25 * altura - 5 * edad + 5
+    else:  # mujer
+        return 10 * peso + 6.25 * altura - 5 * edad - 161
+
+
+FACTORES_ACTIVIDAD = {
+    "sedentario": 1.2,
+    "ligero": 1.375,
+    "moderado": 1.55,
+    "intenso": 1.725,
+    "muy_intenso": 1.9,
+}
+
+@app.route("/tmb", methods=["GET", "POST"])
+def tmb():
+    resultado_tmb = None
+    calorias_mantenimiento = None
+
+    if request.method == "POST":
+        try:
+            sexo = request.form.get("sexo")
+            peso = float(request.form.get("peso"))
+            altura = float(request.form.get("altura"))
+            edad = int(request.form.get("edad"))
+            actividad = request.form.get("actividad")
+
+            tmb_valor = calcular_tmb(sexo, peso, altura, edad)
+            resultado_tmb = round(tmb_valor, 2)
+
+            if actividad in FACTORES_ACTIVIDAD:
+                calorias_mantenimiento = round(
+                    tmb_valor * FACTORES_ACTIVIDAD[actividad], 2
+                )
+        except (TypeError, ValueError):
+            resultado_tmb = "error"
+
+    return render_template(
+        "tmb.html",
+        resultado_tmb=resultado_tmb,
+        calorias_mantenimiento=calorias_mantenimiento,
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)

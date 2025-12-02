@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+<div class="position-relative text-center">
+    <img src="https://img.freepik.com/premium-photo/healthy-foods-background-with-copy-space-banner-card-generative-ai_159242-26737.jpg?w=2000"
+        class="w-100 h-100">
+    <div class="position-absolute top-0 start-0 w-100 h-100 overflow-y-auto overflow-hidden">
+        <div class="d-flex align-items-center h-100">
+
+            <div class="card shadow border-0 rounded-4 overflow-hidden mx-auto ">
+                <div class="card-body py-4 px-5">
+                    <div class="row align-items-center">
+
+                        <div class="col-12 col-md-4 text-center mb-3 mb-md-0">
+                            <img src="{{ session.imagen }}"
+                                class="rounded-circle border border-2 border-light shadow-sm"
+                                style="width: 150px; height: 150px; object-fit: cover;">
+                        </div>
+
+                        <div class="col-12 col-md-8 text-start">
+                            <h4 class="fw-semibold mb-1">
+                                Perfil de <span class="text-success">{{ session.nombre }}</span>
+                            </h4>
+                            <p class="text-muted mb-3 small">
+                                Este es el resumen de tu información en NutriApp.
+                            </p>
+
+                            <dl class="row mb-0 small">
+                                <dt class="col-5 text-muted">Usuario</dt>
+                                <dd class="col-7 fw-semibold">{{ session.nombre }}</dd>
+
+                                <dt class="col-5 text-muted">Correo</dt>
+                                <dd class="col-7 fw-semibold">{{ session.correo }}</dd>
+
+                                <dt class="col-5 text-muted">Peso</dt>
+                                <dd class="col-7 fw-semibold">{{ session.peso }} kg</dd>
+
+                                <dt class="col-5 text-muted">Altura</dt>
+                                <dd class="col-7 fw-semibold">{{ session.altura }} cm</dd>
+
+                                <dt class="col-5 text-muted">Actividad</dt>
+                                <dd class="col-7 fw-semibold">{{ session.actividad }}</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-top bg-light px-5 py-3 d-flex justify-content-between align-items-center">
+                    <span class="small text-muted">Último acceso: ahora mismo</span>
+                    <div>
+                        <a href="/perfil" class="btn btn-outline-success btn-sm me-2">Editar perfil</a>
+                        <a href="/logout" class="btn btn-outline-danger btn-sm">Cerrar sesión</a>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+{% endblock %}
